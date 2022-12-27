@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import App from "views/App"
+import Footer from "./Footer/Footer";
+import Header from "./Header/Header";
 
 class Pages extends React.Component {
     constructor(props) {
@@ -8,7 +10,13 @@ class Pages extends React.Component {
         this.state = {};
     }
     render() {
-        return <App/>
+        return (
+            <div>
+                <Header/>
+                <App/>
+                <Footer/>
+            </div>
+        )
     }
 }
 
