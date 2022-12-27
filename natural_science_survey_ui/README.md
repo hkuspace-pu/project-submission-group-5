@@ -1,3 +1,13 @@
+# natural_science_survey_ui
+
+## Node Version
+
+Node version `v14.17.0` is recommended for this project
+
+## References
+
+- https://mui.com/material-ui/getting-started/overview/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,7 +78,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-### References
-
-- https://mui.com/material-ui/getting-started/overview/
