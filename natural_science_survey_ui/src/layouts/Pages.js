@@ -1,8 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import App from "views/App"
+import { Switch, Route, Redirect } from "react-router-dom";
+
 import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
+
+import pagesRoutes from "routes/pages"
 
 class Pages extends React.Component {
     constructor(props) {
@@ -10,11 +13,32 @@ class Pages extends React.Component {
         this.state = {};
     }
     render() {
+        const getComponent = (prop) => {
+            return () => (
+                <prop.component
+                    {...this.props}
+                />)
+        }
         return (
             <div>
-                <Header/>
-                <App/>
-                <Footer/>
+                <Header />
+                <Switch>
+                    {pagesRoutes.map((prop, key) => {
+                        if (prop.redirect) {
+                            return (
+                                <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                            );
+                        }
+                        return (
+                            <Route
+                                path={prop.path}
+                                render={getComponent(prop)}
+                                key={key}
+                            />
+                        );
+                    })}
+                </Switch>
+                <Footer />
             </div>
         )
     }
