@@ -28,12 +28,18 @@ function Header(props) {
                 <Hidden mdUp>
                     {buildCompanyLogo(COMPANY_SHORT_NAME)}
                 </Hidden>
+                <div className={classes.button}>
                 {
-                    window.location.pathname != "/login" && <Button href="/login" className={classes.button}>
+                    window.location.pathname != "/login" && <Button href="/login">
                         Sign in
                     </Button>
-                    
                 }
+                {
+                    window.location.pathname != "/register" && <Button href="/register">
+                        Register
+                    </Button>
+                }
+                </div>
             </Toolbar>
         </AppBar>
     )

@@ -1,5 +1,6 @@
 import App from "views/App"
 import LoginPage from "views/LoginPage"; 
+import RegisterPage from "views/RegisterPage"; 
 
 const pagesRoutes = [
     {
@@ -11,6 +12,11 @@ const pagesRoutes = [
         path: "/login",
         name: "Login",
         component: LoginPage
+    },
+    {
+        path: "/register",
+        name: "Register",
+        component: RegisterPage
     },
     {
         redirect: true,
