@@ -6,6 +6,7 @@ import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 
 import pagesRoutes from "routes/pages"
+import backgroundImage from "assets/background.jpeg";
 
 class Pages extends React.Component {
     constructor(props) {
@@ -20,7 +21,11 @@ class Pages extends React.Component {
                 />)
         }
         return (
-            <div>
+            <div style={{
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundImage: "url(" + backgroundImage + ")"
+            }}>
                 <Header />
                 <Switch>
                     {pagesRoutes.map((prop, key) => {
