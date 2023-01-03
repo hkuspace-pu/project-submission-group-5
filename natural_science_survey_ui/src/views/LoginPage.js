@@ -66,7 +66,7 @@ class LoginPage extends React.Component {
                                 </FormHelperText>
                             </FormControl>
                             <div className={classes.footer}>
-                                <Button className={classes.button} onClick={() => { console.log(this.state); window.location = "/search" }}>
+                                <Button className={classes.button} onClick={() => { console.log(this.state); window.location = "/survey/search" }}>
                                     Sign in
                                 </Button>
                             </div>

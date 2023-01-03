@@ -42,6 +42,11 @@ class RegisterPage extends React.Component {
                                 </InputLabel>
                                 <Input
                                     value={firstname}
+                                    endAdornment={(
+                                        <InputAdornment position="end">
+                                            <PersonIcon />
+                                        </InputAdornment>
+                                    )}
                                     onChange={(event) => { this.setState({ firstname: event.target.value }) }}
                                 />
                             </FormControl>
@@ -51,6 +56,11 @@ class RegisterPage extends React.Component {
                                 </InputLabel>
                                 <Input
                                     value={lastname}
+                                    endAdornment={(
+                                        <InputAdornment position="end">
+                                            <PersonIcon />
+                                        </InputAdornment>
+                                    )}
                                     onChange={(event) => { this.setState({ lastname: event.target.value }) }}
                                 />
                             </FormControl>

@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
+import Sidebar from "./Sidebar/Sidebar";
 
 import pagesRoutes from "routes/pages"
 import backgroundImage from "assets/background.jpeg";
@@ -20,32 +21,52 @@ class Pages extends React.Component {
                     {...this.props}
                 />)
         }
-        return (
-            <div style={{
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundImage: "url(" + backgroundImage + ")"
-            }}>
-                <Header />
-                <Switch>
-                    {pagesRoutes.map((prop, key) => {
-                        if (prop.redirect) {
+        return window.location.pathname.indexOf("survey") != -1 ?
+            (
+                <Sidebar>
+                    <Switch>
+                        {pagesRoutes.map((prop, key) => {
+                            if (prop.redirect) {
+                                return (
+                                    <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                                );
+                            }
                             return (
-                                <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                                <Route
+                                    path={prop.path}
+                                    render={getComponent(prop)}
+                                    key={key}
+                                />
                             );
-                        }
-                        return (
-                            <Route
-                                path={prop.path}
-                                render={getComponent(prop)}
-                                key={key}
-                            />
-                        );
-                    })}
-                </Switch>
-                <Footer />
-            </div>
-        )
+                        })}
+                    </Switch>
+                </Sidebar>
+            ) : (
+                <div style={{
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundImage: "url(" + backgroundImage + ")"
+                }}>
+                    <Header />
+                    <Switch>
+                        {pagesRoutes.map((prop, key) => {
+                            if (prop.redirect) {
+                                return (
+                                    <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                                );
+                            }
+                            return (
+                                <Route
+                                    path={prop.path}
+                                    render={getComponent(prop)}
+                                    key={key}
+                                />
+                            );
+                        })}
+                    </Switch>
+                    <Footer />
+                </div>
+            )
     }
 }
 

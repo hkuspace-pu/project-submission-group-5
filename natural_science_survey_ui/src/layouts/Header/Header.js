@@ -30,12 +30,12 @@ function Header(props) {
                 </Hidden>
                 <div className={classes.button}>
                 {
-                    window.location.pathname != "/login" && <Button href="/login">
+                    window.location.pathname != "/login" && <Button href="/login" style={{color: "#ffffffde"}}>
                         Sign in
                     </Button>
                 }
                 {
-                    window.location.pathname != "/register" && <Button href="/register">
+                    window.location.pathname != "/register" && <Button href="/register" style={{color: "#ffffffde"}}>
                         Register
                     </Button>
                 }

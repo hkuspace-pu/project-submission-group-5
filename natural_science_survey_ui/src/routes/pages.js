@@ -20,9 +20,33 @@ const pagesRoutes = [
         component: RegisterPage
     },
     {
-        path: "/search",
+        path: "/survey/search",
         name: "Search",
         component: SearchPage
+        
+    },
+    {
+        path: "/survey/submit",
+        name: "Search",
+        component: App
+        
+    },
+    {
+        path: "/survey/mysurvey",
+        name: "Search",
+        component: App
+        
+    },
+    {
+        path: "/survey/profile",
+        name: "Search",
+        component: App
+        
+    },
+    {
+        path: "/survey/preferences",
+        name: "Search",
+        component: App
         
     },
     {
