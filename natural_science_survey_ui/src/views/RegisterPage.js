@@ -110,7 +110,7 @@ class RegisterPage extends React.Component {
                                 />
                             </FormControl>
                             <div className={classes.footer}>
-                                <Button className={classes.button} onClick={() => { console.log(this.state) }}>
+                                <Button className={classes.button} onClick={() => { console.log(this.state); window.location = "/login" }}>
                                     Register
                                 </Button>
                             </div>

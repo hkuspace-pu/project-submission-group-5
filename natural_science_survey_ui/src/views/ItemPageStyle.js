@@ -1,4 +1,4 @@
-const SearchPageStyle = theme => ({
+const ItemPageStyle = theme => ({
     container: {
         backgroundColor: "white",
         opacity: "0.8",
@@ -7,7 +7,7 @@ const SearchPageStyle = theme => ({
         marginRight: "auto",
         marginLeft: "auto",
         minHeight: "750px",
-        paddingTop: "10%",
+        paddingTop: "5%",
         "@media (min-width: 768px)": {
             width: "750px"
         },
@@ -29,16 +29,6 @@ const SearchPageStyle = theme => ({
             paddingBottom: "100px"
         },
     },
-    previewImg: {
-        top: "0px",
-        position: "relative",
-        marginRight: "6px",
-        width: "128px",
-        height: "128px",
-        verticalAlign: "middle",
-        color: "inherit",
-        display: "inline-block"
-    },
 })
 
-export default SearchPageStyle
+export default ItemPageStyle

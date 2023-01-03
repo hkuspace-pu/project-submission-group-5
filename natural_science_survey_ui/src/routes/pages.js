@@ -2,6 +2,7 @@ import App from "views/App"
 import LoginPage from "views/LoginPage"; 
 import RegisterPage from "views/RegisterPage"; 
 import SearchPage from "views/SearchPage"; 
+import ItemPage from "views/ItemPage"; 
 
 const pagesRoutes = [
     {
@@ -24,6 +25,11 @@ const pagesRoutes = [
         name: "Search",
         component: SearchPage
         
+    },
+    {
+        path: "/survey/item",
+        name: "Item",
+        component: ItemPage,
     },
     {
         path: "/survey/submit",
