@@ -7,6 +7,14 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
 
 import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
@@ -20,57 +28,104 @@ class LoginPage extends React.Component {
         this.state = {
             username: "",
             password: "",
+            useUserHistory: true,
         };
     }
     render() {
         const { classes } = this.props
-        const { username, password } = this.state
+        const { username, password, useUserHistory } = this.state
+        const users = macaulayLibraryData.results.content.reduce((o, c) => { o[c.userId] = c; return o }, {})
+        const getUserType = (i) => {
+            switch (i) {
+                case 0:
+                    return "Administrator"
+                case 1:
+                    return "Expert Surveyor"
+                case 2:
+                    return "Moderator"
+                default:
+                    return "Surveyor"
+            }
+        }
         return (
             <div className={classes.container}>
                 <Grid container className={classes.formContainer}>
                     <Grid item xs={8} sm={6} md={4} className={classes.formItem}>
-                        <form>
-                            <h4 className={classes.title}>Sign in to your {COMPANY_NAME} Account</h4>
-                            <FormControl>
-                                <InputLabel>
-                                    Username
-                                </InputLabel>
-                                <Input
-                                    value={username}
-                                    endAdornment={(
-                                        <InputAdornment position="end">
-                                            <PersonIcon />
-                                        </InputAdornment>
-                                    )}
-                                    onChange={(event) => { this.setState({ username: event.target.value }) }}
-                                />
-                                <FormHelperText>
-                                    Please enter your username
-                                </FormHelperText>
-                            </FormControl>
-                            <FormControl>
-                                <InputLabel>
-                                    Password
-                                </InputLabel>
-                                <Input
-                                    value={password}
-                                    endAdornment={(
-                                        <InputAdornment position="end">
-                                            <PasswordIcon />
-                                        </InputAdornment>
-                                    )}
-                                    onChange={(event) => { this.setState({ password: event.target.value }) }}
-                                />
-                                <FormHelperText>
-                                    Please enter your password
-                                </FormHelperText>
-                            </FormControl>
-                            <div className={classes.footer}>
-                                <Button className={classes.button} onClick={() => { console.log(this.state); window.location = "/survey/search" }}>
-                                    Sign in
-                                </Button>
-                            </div>
-                        </form>
+                        {useUserHistory ?
+                            <form>
+                                <h4 className={classes.title}>Sign in to your {COMPANY_NAME} Account</h4>
+                                <List>
+                                    {Object.keys(users).slice(0, 4).map((userId, i) => {
+                                        return <ListItem>
+                                            <ListItemButton onClick={() => {
+                                                console.log(this.state);
+                                                localStorage.setItem('userId', userId);
+                                                localStorage.setItem('userDisplayName', users[userId].userDisplayName);
+                                                localStorage.setItem('userType', getUserType(i % 4));
+                                                window.location = "/survey/search"
+                                            }}>
+                                                <List>
+                                                    <Typography variant="h6" noWrap component="div">
+                                                        {users[userId].userDisplayName}
+                                                    </Typography>
+                                                    <Typography variant="h8" noWrap component="div">
+                                                        {getUserType(i % 4)}
+                                                    </Typography>
+                                                </List>
+                                            </ListItemButton>
+                                        </ListItem>
+                                    })}
+                                </List>
+                                <div className={classes.footer}>
+                                    <Button className={classes.button} onClick={() => { this.setState({ useUserHistory: !useUserHistory }) }}>
+                                        Add another account
+                                    </Button>
+                                </div>
+                            </form>
+                            :
+                            <form>
+                                <h4 className={classes.title}>Sign in to your {COMPANY_NAME} Account</h4>
+                                <FormControl>
+                                    <InputLabel>
+                                        Username
+                                    </InputLabel>
+                                    <Input
+                                        value={username}
+                                        endAdornment={(
+                                            <InputAdornment position="end">
+                                                <PersonIcon />
+                                            </InputAdornment>
+                                        )}
+                                        onChange={(event) => { this.setState({ username: event.target.value }) }}
+                                    />
+                                    <FormHelperText>
+                                        Please enter your username
+                                    </FormHelperText>
+                                </FormControl>
+                                <FormControl>
+                                    <InputLabel>
+                                        Password
+                                    </InputLabel>
+                                    <Input
+                                        value={password}
+                                        endAdornment={(
+                                            <InputAdornment position="end">
+                                                <PasswordIcon />
+                                            </InputAdornment>
+                                        )}
+                                        onChange={(event) => { this.setState({ password: event.target.value }) }}
+                                    />
+                                    <FormHelperText>
+                                        Please enter your password
+                                    </FormHelperText>
+                                </FormControl>
+                                <div className={classes.footer}>
+                                    <Button className={classes.button} onClick={() => { console.log(this.state); window.location = "/survey/search" }}>
+                                        Sign in
+                                    </Button>
+                                </div>
+                            </form>
+                        }
                     </Grid>
                 </Grid>
             </div>

@@ -14,7 +14,7 @@ class MySurveyPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userId: "USER2636335",
+            userId: localStorage.getItem("userId") || "USER2636335",
         };
     }
 
