@@ -5,6 +5,8 @@ import SearchPage from "views/SearchPage";
 import ItemPage from "views/ItemPage"; 
 import CreatePage from "views/CreatePage"; 
 import MySurveyPage from "views/MySurveyPage"; 
+import ProfilePage from "views/ProfilePage"; 
+import PreferencesPage from "views/PreferencesPage"; 
 
 const pagesRoutes = [
     {
@@ -48,13 +50,13 @@ const pagesRoutes = [
     {
         path: "/survey/profile",
         name: "Profile",
-        component: App
+        component: ProfilePage
         
     },
     {
         path: "/survey/preferences",
         name: "Preferences",
-        component: App
+        component: PreferencesPage
         
     },
     {

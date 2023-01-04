@@ -42,6 +42,9 @@ function Sidebar(props) {
                         {COMPANY_NAME}
                     </Typography>
                     <div className={classes.button}>
+                        <Typography variant="h8" style={{marginRight: "10px"}}>
+                            {"Hi " + localStorage.getItem("userDisplayName")}
+                        </Typography>
                         <Button href="/login" style={{ color: "#ffffffde" }}>
                             Sign out
                         </Button>
