@@ -4,6 +4,7 @@ import RegisterPage from "views/RegisterPage";
 import SearchPage from "views/SearchPage"; 
 import ItemPage from "views/ItemPage"; 
 import CreatePage from "views/CreatePage"; 
+import MySurveyPage from "views/MySurveyPage"; 
 
 const pagesRoutes = [
     {
@@ -41,7 +42,7 @@ const pagesRoutes = [
     {
         path: "/survey/mysurvey",
         name: "My Survey",
-        component: App
+        component: MySurveyPage
         
     },
     {

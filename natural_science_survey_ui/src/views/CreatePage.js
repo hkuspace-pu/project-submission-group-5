@@ -29,8 +29,8 @@ class CreatePage extends React.Component {
         };
     }
     componentDidMount() {
-        let id = 0
-        let data = macaulayLibraryData.results.content[id]
+        let assetId = new URLSearchParams(window.location.search).get("assetId") || 0
+        let data = macaulayLibraryData.results.content.filter(c => c.assetId == assetId)?.[0] || macaulayLibraryData.results.content[0]
         if (data) {
             this.setState({ data })
         } else {
