@@ -10,6 +10,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
+import { toTitleCase } from "utils/utils"
 
 class ItemPage extends React.Component {
     constructor(props) {
@@ -42,14 +43,20 @@ class ItemPage extends React.Component {
                 {Object.keys(d).map((k) => {
                     return (
                         <ListItem>
-                            <ListItemText>
-                                <Typography variant="h7" align="left" >
-                                    {k}
-                                </Typography>
-                            </ListItemText>
-                            <ListItemText>
-                                {d[k] && typeof d[k] === "object" ? convert(d[k]) : JSON.stringify(d[k])}
-                            </ListItemText>
+                            <Grid container>
+                                <Grid item xs={2}>
+                                    <ListItemText>
+                                        <Typography variant="h7" align="left" >
+                                            {toTitleCase(k)}
+                                        </Typography>
+                                    </ListItemText>
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <ListItemText>
+                                        {d[k] && typeof d[k] === "object" ? convert(d[k]) : d[k]}
+                                    </ListItemText>
+                                </Grid>
+                            </Grid>
                         </ListItem>
                     )
                 })}
