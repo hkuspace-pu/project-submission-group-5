@@ -3,6 +3,7 @@ import LoginPage from "views/LoginPage";
 import RegisterPage from "views/RegisterPage"; 
 import SearchPage from "views/SearchPage"; 
 import ItemPage from "views/ItemPage"; 
+import CreatePage from "views/CreatePage"; 
 
 const pagesRoutes = [
     {
@@ -33,25 +34,25 @@ const pagesRoutes = [
     },
     {
         path: "/survey/submit",
-        name: "Search",
-        component: App
+        name: "Submit",
+        component: CreatePage
         
     },
     {
         path: "/survey/mysurvey",
-        name: "Search",
+        name: "My Survey",
         component: App
         
     },
     {
         path: "/survey/profile",
-        name: "Search",
+        name: "Profile",
         component: App
         
     },
     {
         path: "/survey/preferences",
-        name: "Search",
+        name: "Preferences",
         component: App
         
     },

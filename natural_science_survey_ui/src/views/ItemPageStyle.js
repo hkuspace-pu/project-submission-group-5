@@ -29,6 +29,9 @@ const ItemPageStyle = theme => ({
             paddingBottom: "100px"
         },
     },
+    button: {
+        width: "100%"
+    }
 })
 
 export default ItemPageStyle
