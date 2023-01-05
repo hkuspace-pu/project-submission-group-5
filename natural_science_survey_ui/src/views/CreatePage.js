@@ -17,8 +17,10 @@ import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import ListItemText from '@mui/material/ListItemText';
 import Button from "@material-ui/core/Button";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { NavLink } from "react-router-dom";
 import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
+import { SURVEYOR } from "variables/common"
 import { toTitleCase } from "utils/utils"
 
 class CreatePage extends React.Component {
@@ -98,11 +100,23 @@ class CreatePage extends React.Component {
                         {convert(data)}
                     </List>
                 </Grid>
-                <Button onClick={() => { macaulayLibraryData.results.content.push(data); createItem(macaulayLibraryData) }} className={classes.button}>
-                    <NavLink to={"/survey/search"} >
-                        Submit
-                    </NavLink>
-                </Button>
+                {
+                    new URLSearchParams(window.location.search).get("assetId") ?
+                        <div style={{ display: "flex" }}>
+                            <Button onClick={() => { alert("Survey record will be deleted."); window.location = "/survey/mysurvey" }} className={classes.button}>
+                                Delete
+                            </Button>
+                            <Button onClick={() => { alert("Survey record updated successfully.") }} className={classes.button}>
+                                Update
+                            </Button>
+                        </div>
+                        :
+                        <Button onClick={() => { macaulayLibraryData.results.content.push(data); createItem(macaulayLibraryData); localStorage.getItem("userType") == SURVEYOR ? alert("Your survey record has been successfully created. Will wait for moderator approval.") : alert("Survey record created successfully.") }} className={classes.button}>
+                            <NavLink to={"/survey/search"} >
+                                Submit
+                            </NavLink>
+                        </Button>
+                }
             </div>
         )
     }

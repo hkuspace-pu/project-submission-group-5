@@ -7,7 +7,7 @@ const SearchPageStyle = theme => ({
         marginRight: "auto",
         marginLeft: "auto",
         minHeight: "750px",
-        paddingTop: "10%",
+        paddingTop: "6%",
         "@media (min-width: 768px)": {
             width: "750px"
         },
@@ -38,6 +38,10 @@ const SearchPageStyle = theme => ({
         verticalAlign: "middle",
         color: "inherit",
         display: "inline-block"
+    },
+    button: {
+        marginBottom: "20px",
+        right: "0px",
     },
 })
 
