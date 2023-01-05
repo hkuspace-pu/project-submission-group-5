@@ -14,19 +14,24 @@ import ListItemText from '@mui/material/ListItemText';
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import SidebarStyle from "./SidebarStyle";
-import PageviewIcon from '@mui/icons-material/Pageview';
-import PublishIcon from '@mui/icons-material/Publish';
-import VideoStableIcon from '@mui/icons-material/VideoStable';
-import PersonIcon from '@mui/icons-material/Person';
-import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
 import logo from 'assets/logo.svg';
 import backgroundImage from "assets/background.jpeg";
-import { COMPANY_NAME, COMPANY_SHORT_NAME } from "variables/common"
+import { COMPANY_NAME, GUEST } from "variables/common"
+import pagesRoutes from "routes/pages"
 
 const drawerWidth = 200;
 
 function Sidebar(props) {
     const { classes } = props;
+    const userType = localStorage.getItem("userType") || GUEST
+    const group1 = pagesRoutes.filter((page) => page.group == 1 && page.permission?.indexOf(userType) > -1)
+    const group1Title = group1.map((page) => page.name)
+    const group1Path = group1.map((page) => page.path)
+    const group1Icon = group1.map((page) => page.icon)
+    const group2 = pagesRoutes.filter((page) => page.group == 2 && page.permission?.indexOf(userType) > -1)
+    const group2Title = group2.map((page) => page.name)
+    const group2Path = group2.map((page) => page.path)
+    const group2Icon = group2.map((page) => page.icon)
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -42,7 +47,7 @@ function Sidebar(props) {
                         {COMPANY_NAME}
                     </Typography>
                     <div className={classes.button}>
-                        <Typography variant="h8" style={{marginRight: "10px"}}>
+                        <Typography variant="h8" style={{ marginRight: "10px" }}>
                             {"Hi " + localStorage.getItem("userDisplayName")}
                         </Typography>
                         <Button href="/login" style={{ color: "#ffffffde" }}>
@@ -62,13 +67,13 @@ function Sidebar(props) {
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }}>
                     <List>
-                        {['Search', 'Submit', 'My Survey'].map((text, index) => (
+                        {group1Title.map((text, index) => (
                             <ListItem key={text} disablePadding>
                                 <ListItemButton
-                                    href={["/survey/search", "/survey/submit", "/survey/mysurvey"][index]}
+                                    href={group1Path[index]}
                                 >
                                     <ListItemIcon>
-                                        {[<PageviewIcon />, <PublishIcon />, <VideoStableIcon />][index]}
+                                        {group1Icon[index]}
                                     </ListItemIcon>
                                     <ListItemText primary={text} />
                                 </ListItemButton>
@@ -77,13 +82,13 @@ function Sidebar(props) {
                     </List>
                     <Divider />
                     <List>
-                        {['Profile', 'Preferences'].map((text, index) => (
+                        {group2Title.map((text, index) => (
                             <ListItem key={text} disablePadding>
                                 <ListItemButton
-                                    href={["/survey/profile", "/survey/preferences"][index]}
+                                    href={group2Path[index]}
                                 >
                                     <ListItemIcon>
-                                        {[<PersonIcon />, <SettingsAccessibilityIcon />][index]}
+                                        {group2Icon[index]}
                                     </ListItemIcon>
                                     <ListItemText primary={text} />
                                 </ListItemButton>

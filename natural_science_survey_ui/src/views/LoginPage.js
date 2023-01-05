@@ -20,7 +20,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
 
 import LoginPageStyle from "./LoginPageStyle"
-import { COMPANY_NAME } from "variables/common"
+import { COMPANY_NAME, ADMINISTRATOR, EXPERT_SURVEYOR, MODERATOR, SURVEYOR, GUEST } from "variables/common"
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -31,6 +31,11 @@ class LoginPage extends React.Component {
             useUserHistory: true,
         };
     }
+    componentDidMount() {
+        localStorage.setItem('userId', "");
+        localStorage.setItem('userDisplayName', GUEST);
+        localStorage.setItem('userType', GUEST);
+    }
     render() {
         const { classes } = this.props
         const { username, password, useUserHistory } = this.state
@@ -38,13 +43,13 @@ class LoginPage extends React.Component {
         const getUserType = (i) => {
             switch (i) {
                 case 0:
-                    return "Administrator"
+                    return ADMINISTRATOR
                 case 1:
-                    return "Expert Surveyor"
+                    return EXPERT_SURVEYOR
                 case 2:
-                    return "Moderator"
+                    return MODERATOR
                 default:
-                    return "Surveyor"
+                    return SURVEYOR
             }
         }
         return (
@@ -58,7 +63,6 @@ class LoginPage extends React.Component {
                                     {Object.keys(users).slice(0, 4).map((userId, i) => {
                                         return <ListItem>
                                             <ListItemButton onClick={() => {
-                                                console.log(this.state);
                                                 localStorage.setItem('userId', userId);
                                                 localStorage.setItem('userDisplayName', users[userId].userDisplayName);
                                                 localStorage.setItem('userType', getUserType(i % 4));
