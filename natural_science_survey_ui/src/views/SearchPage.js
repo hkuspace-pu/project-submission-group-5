@@ -52,7 +52,11 @@ class SearchPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tabValue: 0
+            tabValue: 0,
+            commonName: "",
+            obsDttm: "",
+            userDisplayName: "",
+            location: "",
         };
         this.handleChange = this.handleChange.bind(this);
     }
@@ -147,13 +151,31 @@ class SearchPage extends React.Component {
                                             </FormControl>
                                         })
                                     }
-                                    <Button className={classes.button} style={{marginTop: "10%", marginLeft: "20%" }} onClick={() => { alert("Maps will be displayed based on your search information.") }}>
+                                    <Button className={classes.button} style={{ marginTop: "10%", marginLeft: "20%" }} onClick={() => { alert("Maps will be displayed based on your search information.") }}>
                                         <Chip label="Search" color="primary" />
                                     </Button>
                                 </Box>
                             </Grid>
                         </TabPanel>
                         <TabPanel value={tabValue} index={2}>
+                            <div >
+                            {
+                                columns.map((c) => {
+                                    if (!c.Header) {
+                                        return null
+                                    }
+                                    return <FormControl style={{ marginLeft: "2%", width: "15%" }}>
+                                        <InputLabel>
+                                            {c.Header}
+                                        </InputLabel>
+                                        <Input
+                                            value={this.state[c.id]}
+                                            onChange={(event) => { this.setState({ [c.id]: event.target.value }) }}
+                                        />
+                                    </FormControl>
+                                })
+                            }
+                            </div>
                             <div className={classes.images}>
                                 {data.map((d, i) => {
                                     return <ButtonBase

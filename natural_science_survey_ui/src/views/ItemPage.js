@@ -11,7 +11,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
 import { toTitleCase } from "utils/utils"
-
+import CommentPage from "views/CommentPage"
 class ItemPage extends React.Component {
     constructor(props) {
         super(props);
@@ -76,6 +76,7 @@ class ItemPage extends React.Component {
                         <Divider />
                         {convert(data)}
                     </List>
+                    <CommentPage />
                 </Grid>
             </div>
         )

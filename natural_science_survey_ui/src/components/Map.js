@@ -21,10 +21,12 @@ function LoadGoogleMap(props) {
 
   const onLoad = React.useCallback(function callback(map) {
     // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
+    /*
+      const bounds = new window.google.maps.LatLngBounds(center);
+      map.fitBounds(bounds);
 
-    setMap(map)
+      setMap(map)
+    */
   }, [])
 
   const onUnmount = React.useCallback(function callback(map) {
