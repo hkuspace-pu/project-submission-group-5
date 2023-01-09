@@ -30,6 +30,7 @@ const ItemPageStyle = theme => ({
         },
     },
     button: {
+        backgroundColor: "#c6c6c6de",
         width: "100%"
     }
 })

@@ -96,6 +96,9 @@ class CreatePage extends React.Component {
                             {data.location}
                         </Typography>
                         <img src={data.previewUrl} />
+                        <Button onClick={() => { }} className={classes.button}>
+                            Upload Attachment
+                        </Button>
                         <Divider />
                         {convert(data)}
                     </List>

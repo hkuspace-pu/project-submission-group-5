@@ -14,6 +14,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";
+import Checkbox from '@mui/material/Checkbox';
 import SearchPageStyle from "./SearchPageStyle"
 import Map from "../components/Map"
 import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead } from "reducers/actions"
@@ -74,10 +75,11 @@ class SearchPage extends React.Component {
         const { tabValue } = this.state
         var columns = macaulayLibraryHead || []
         if (localStorage.getItem("userType") == EXPERT_SURVEYOR) {
-            columns = [{ Header: "Type", accessor: "type", id: "type", value: 64, desc: false }, ...columns]
+            columns = [{ Header: "", accessor: "checked", id: "checked", value: 48, desc: false }, { Header: "Type", accessor: "type", id: "type", value: 64, desc: false }, ...columns]
         }
 
         const data = macaulayLibraryData?.results.content.map((b, i) => {
+            b.checked = <Checkbox disabled={false}></Checkbox>
             b.preview = <img src={b.previewUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/item?id=" + i}><FindInPageIcon /></a>
             b.type = i < 10 ? <Chip label="PRO" color="primary" /> : ""
@@ -145,6 +147,9 @@ class SearchPage extends React.Component {
                                             </FormControl>
                                         })
                                     }
+                                    <Button className={classes.button} style={{marginTop: "10%", marginLeft: "20%" }} onClick={() => { alert("This is still a work in progress.") }}>
+                                        <Chip label="Search" color="primary" />
+                                    </Button>
                                 </Box>
                             </Grid>
                         </TabPanel>
