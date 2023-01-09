@@ -10,7 +10,12 @@ import Grid from "@material-ui/core/Grid";
 import ButtonBase from '@material-ui/core/ButtonBase';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import Chip from '@mui/material/Chip';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Input from "@material-ui/core/Input";
 import SearchPageStyle from "./SearchPageStyle"
+import Map from "../components/Map"
 import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead } from "reducers/actions"
 import { EXPERT_SURVEYOR } from "variables/common"
 import "./ReactTable.scss"
@@ -113,7 +118,35 @@ class SearchPage extends React.Component {
                             />
                         </TabPanel>
                         <TabPanel value={tabValue} index={1}>
-                            Map View
+                            <Grid container style={{ width: '1000px', height: '1000px' }}>
+                                <Box sx={{ width: '80%', height: '80%' }}><Map /></Box>
+                                <Box sx={{ width: '20%', height: '20%' }}>
+                                    <Typography
+                                        component="h3"
+                                        variant="h6"
+                                        color="inherit"
+                                        style={{ marginLeft: "10%" }}
+                                    >
+                                        Search
+                                    </Typography>
+                                    {
+                                        columns.map((c) => {
+                                            if (!c.Header) {
+                                                return null
+                                            }
+                                            return <FormControl style={{ marginLeft: "10%", width: "80%" }}>
+                                                <InputLabel>
+                                                    {c.Header}
+                                                </InputLabel>
+                                                <Input
+                                                    value={this.state[c.id]}
+                                                    onChange={(event) => { this.setState({ [c.id]: event.target.value }) }}
+                                                />
+                                            </FormControl>
+                                        })
+                                    }
+                                </Box>
+                            </Grid>
                         </TabPanel>
                         <TabPanel value={tabValue} index={2}>
                             <div className={classes.images}>
