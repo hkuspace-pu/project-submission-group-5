@@ -89,9 +89,9 @@ class LoginPage extends React.Component {
                             :
                             <form>
                                 <h4 className={classes.title}>Sign in to your {COMPANY_NAME} Account</h4>
-                                <FormControl>
+                                <FormControl style={{ width: "80%" }}>
                                     <InputLabel>
-                                        Username
+                                        Username, email or phone
                                     </InputLabel>
                                     <Input
                                         value={username}
@@ -103,10 +103,10 @@ class LoginPage extends React.Component {
                                         onChange={(event) => { this.setState({ username: event.target.value }) }}
                                     />
                                     <FormHelperText>
-                                        Please enter your username
+                                        Please enter your username, email or phone
                                     </FormHelperText>
                                 </FormControl>
-                                <FormControl>
+                                <FormControl style={{ width: "80%" }}>
                                     <InputLabel>
                                         Password
                                     </InputLabel>
@@ -124,6 +124,7 @@ class LoginPage extends React.Component {
                                     </FormHelperText>
                                 </FormControl>
                                 <div className={classes.footer}>
+                                    <a href="">Forgot password?</a>
                                     <Button className={classes.button} onClick={() => { console.log(this.state); window.location = "/survey/search" }}>
                                         Sign in
                                     </Button>

@@ -1,17 +1,51 @@
 import React from "react";
 import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Table from "react-table";
 import Grid from "@material-ui/core/Grid";
+import ButtonBase from '@material-ui/core/ButtonBase';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import SearchPageStyle from "./SearchPageStyle"
 import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead } from "reducers/actions"
 import "./ReactTable.scss"
 
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
 class SearchPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            tabValue: 0
+        };
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -22,8 +56,14 @@ class SearchPage extends React.Component {
         }
     }
 
+    handleChange = (event, newValue) => {
+        console.log(event, newValue)
+        this.setState({ tabValue: newValue })
+    };
+
     render() {
         const { classes, macaulayLibraryHead, macaulayLibraryData } = this.props
+        const { tabValue } = this.state
         const columns = macaulayLibraryHead || []
         const data = macaulayLibraryData?.results.content.map((b, i) => {
             b.preview = <img src={b.previewUrl + 320} className={classes.previewImg} />
@@ -33,18 +73,63 @@ class SearchPage extends React.Component {
         return (
             <div className={classes.container}>
                 <Grid container>
-                    <Table
-                        style={{ width: "100%" }}
-                        data={data}
-                        filterable
-                        columns={columns}
-                        defaultPageSize={10}
-                        showPaginationTop
-                        showPaginationBottom={false}
-                        resized={columns}
-                        sorted={columns}
-                        className="-striped -highlight"
-                    />
+                    <Box sx={{ width: '100%', marginBottom: "2%" }}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Tabs value={tabValue} onChange={this.handleChange} aria-label="basic tabs example">
+                                <Tab label="List View" {...a11yProps(0)} />
+                                <Tab label="Map View" {...a11yProps(1)} />
+                                <Tab label="Photo Thumbnails View" {...a11yProps(2)} />
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={tabValue} index={0}>
+                            <Table
+                                style={{ width: "100%" }}
+                                data={data}
+                                filterable
+                                columns={columns}
+                                defaultPageSize={10}
+                                showPaginationTop
+                                showPaginationBottom={false}
+                                resized={columns}
+                                sorted={columns}
+                                className="-striped -highlight"
+                            />
+                        </TabPanel>
+                        <TabPanel value={tabValue} index={1}>
+                            Map View
+                        </TabPanel>
+                        <TabPanel value={tabValue} index={2}>
+                            <div className={classes.images}>
+                                {data.map((d, i) => {
+                                    return <ButtonBase
+                                        key={d.commonName}
+                                        className={classes.imageWrapper}
+                                        style={{
+                                            width: "33%",
+                                            backgroundImage: `url(${d.previewUrl + 320})`,
+                                            backgroundSize: "cover",
+                                            backgroundRepeat: "no-repeat",
+
+                                        }}
+                                        href={"/survey/item?id=" + i}
+                                    >
+                                        <div className={classes.imageBackdrop} />
+                                        <div className={classes.imageButton}>
+                                            <Typography
+                                                component="h3"
+                                                variant="h6"
+                                                color="inherit"
+                                                className={classes.imageTitle}
+                                            >
+                                                {d.commonName}
+                                                <div className={classes.imageMarked} />
+                                            </Typography>
+                                        </div>
+                                    </ButtonBase>
+                                })}
+                            </div>
+                        </TabPanel>
+                    </Box>
                 </Grid>
             </div>
         )

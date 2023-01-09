@@ -47,7 +47,7 @@ const pagesRoutes = [
     },
     {
         path: "/survey/submit",
-        name: "Submit",
+        name: "Create",
         group: 1,
         icon: <PublishIcon />,
         permission: [ADMINISTRATOR, EXPERT_SURVEYOR, SURVEYOR],
