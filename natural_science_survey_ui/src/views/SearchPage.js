@@ -9,9 +9,12 @@ import Table from "react-table";
 import Grid from "@material-ui/core/Grid";
 import ButtonBase from '@material-ui/core/ButtonBase';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
+import Chip from '@mui/material/Chip';
 import SearchPageStyle from "./SearchPageStyle"
 import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead } from "reducers/actions"
+import { EXPERT_SURVEYOR } from "variables/common"
 import "./ReactTable.scss"
+import { Button } from "@material-ui/core";
 
 function a11yProps(index) {
     return {
@@ -64,10 +67,15 @@ class SearchPage extends React.Component {
     render() {
         const { classes, macaulayLibraryHead, macaulayLibraryData } = this.props
         const { tabValue } = this.state
-        const columns = macaulayLibraryHead || []
+        var columns = macaulayLibraryHead || []
+        if (localStorage.getItem("userType") == EXPERT_SURVEYOR) {
+            columns = [{ Header: "Type", accessor: "type", id: "type", value: 64, desc: false }, ...columns]
+        }
+
         const data = macaulayLibraryData?.results.content.map((b, i) => {
             b.preview = <img src={b.previewUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/item?id=" + i}><FindInPageIcon /></a>
+            b.type = i < 10 ? <Chip label="PRO" color="primary" /> : ""
             return b
         }) || []
         return (
@@ -82,6 +90,15 @@ class SearchPage extends React.Component {
                             </Tabs>
                         </Box>
                         <TabPanel value={tabValue} index={0}>
+                            <Button className={classes.button} onClick={() => { alert("This is still a work in progress.") }}>
+                                <Chip label="Export" color="primary" />
+                            </Button>
+                            {
+                                localStorage.getItem("userType") == EXPERT_SURVEYOR &&
+                                <Button className={classes.button} onClick={() => { alert("This is still a work in progress.") }}>
+                                    <Chip label="Import" color="primary" />
+                                </Button>
+                            }
                             <Table
                                 style={{ width: "100%" }}
                                 data={data}

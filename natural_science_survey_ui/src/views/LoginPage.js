@@ -124,10 +124,29 @@ class LoginPage extends React.Component {
                                     </FormHelperText>
                                 </FormControl>
                                 <div className={classes.footer}>
-                                    <a href="">Forgot password?</a>
-                                    <Button className={classes.button} onClick={() => { console.log(this.state); window.location = "/survey/search" }}>
-                                        Sign in
-                                    </Button>
+                                    <a href="/login">Forgot password?</a>
+                                    <div style={{ display: "flex" }}>
+                                        <Button className={classes.button} onClick={() => {
+                                            localStorage.setItem('userId', '');
+                                            localStorage.setItem('userDisplayName', '');
+                                            localStorage.setItem('userType', GUEST);
+                                            window.location = "/survey/search"
+                                        }}>
+                                            Guest
+                                        </Button>
+                                        <Button className={classes.button} onClick={() => {
+                                            if (username && password) {
+                                                localStorage.setItem('userId', '');
+                                                localStorage.setItem('userDisplayName', username);
+                                                localStorage.setItem('userType', SURVEYOR);
+                                                window.location = "/survey/search"
+                                            } else {
+                                                alert("Please enter your username and password to login.")
+                                            }
+                                        }}>
+                                            Sign in
+                                        </Button>
+                                    </div>
                                 </div>
                             </form>
                         }

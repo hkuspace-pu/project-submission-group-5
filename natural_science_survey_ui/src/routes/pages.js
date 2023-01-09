@@ -6,6 +6,8 @@ import ItemPage from "views/ItemPage";
 import CreatePage from "views/CreatePage";
 import MySurveyPage from "views/MySurveyPage";
 import ProfilePage from "views/ProfilePage";
+import UserPermissionPage from "views/UserPermissionPage";
+import SettingPage from "views/SettingPage";
 import PreferencesPage from "views/PreferencesPage";
 import ReviewPage from "views/ReviewPage";
 import PageviewIcon from '@mui/icons-material/Pageview';
@@ -80,6 +82,23 @@ const pagesRoutes = [
         permission: [ADMINISTRATOR, EXPERT_SURVEYOR, MODERATOR, SURVEYOR],
         component: ProfilePage
 
+    },
+    {
+        path: "/survey/users",
+        name: "Users",
+        group: 2,
+        icon: <PersonIcon />,
+        permission: [ADMINISTRATOR],
+        component: UserPermissionPage
+
+    },
+    {
+        path: "/survey/setting",
+        name: "Setting",
+        group: 2,
+        icon: <SettingsAccessibilityIcon />,
+        permission: [ADMINISTRATOR],
+        component: SettingPage
     },
     {
         path: "/survey/preferences",
