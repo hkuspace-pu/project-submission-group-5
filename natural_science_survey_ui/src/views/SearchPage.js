@@ -97,12 +97,12 @@ class SearchPage extends React.Component {
                             </Tabs>
                         </Box>
                         <TabPanel value={tabValue} index={0}>
-                            <Button className={classes.button} onClick={() => { alert("This is still a work in progress.") }}>
+                            <Button className={classes.button} onClick={() => { alert("All your selections will be exported as xlsx files") }}>
                                 <Chip label="Export" color="primary" />
                             </Button>
                             {
                                 localStorage.getItem("userType") == EXPERT_SURVEYOR &&
-                                <Button className={classes.button} onClick={() => { alert("This is still a work in progress.") }}>
+                                <Button className={classes.button} onClick={() => { alert("Record will be created based on your xlsx file") }}>
                                     <Chip label="Import" color="primary" />
                                 </Button>
                             }
@@ -147,7 +147,7 @@ class SearchPage extends React.Component {
                                             </FormControl>
                                         })
                                     }
-                                    <Button className={classes.button} style={{marginTop: "10%", marginLeft: "20%" }} onClick={() => { alert("This is still a work in progress.") }}>
+                                    <Button className={classes.button} style={{marginTop: "10%", marginLeft: "20%" }} onClick={() => { alert("Maps will be displayed based on your search information.") }}>
                                         <Chip label="Search" color="primary" />
                                     </Button>
                                 </Box>

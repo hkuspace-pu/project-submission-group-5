@@ -25,6 +25,10 @@ class PreferencesPage extends React.Component {
         super(props);
         this.state = {
             data: {
+                "Language": "English (en)",
+                "Notification": {
+                    "Email notification": true,
+                },
                 "Species name display": {
                     "Common name translated to English": false,
                     "Scientific name": false,

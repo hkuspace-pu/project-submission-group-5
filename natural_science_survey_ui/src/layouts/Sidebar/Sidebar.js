@@ -16,6 +16,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import SidebarStyle from "./SidebarStyle";
 import logo from 'assets/logo.svg';
 import backgroundImage from "assets/background.jpeg";
+import EmailIcon from '@mui/icons-material/Email';
 import { COMPANY_NAME, GUEST } from "variables/common"
 import pagesRoutes from "routes/pages"
 
@@ -50,6 +51,11 @@ function Sidebar(props) {
                         <Typography variant="h8" style={{ marginRight: "10px" }}>
                             {"Hi " + userType + " " + localStorage.getItem("userDisplayName")}
                         </Typography>
+                        {userType != GUEST &&
+                            <Button onClick={() => { alert("Check your chat messages here!") }} style={{ color: "#ffffffde" }}>
+                                <EmailIcon />
+                            </Button>
+                        }
                         <Button href="/login" style={{ color: "#ffffffde" }}>
                             Sign out
                         </Button>

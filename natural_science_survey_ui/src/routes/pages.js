@@ -52,7 +52,7 @@ const pagesRoutes = [
         name: "Create",
         group: 1,
         icon: <PublishIcon />,
-        permission: [ADMINISTRATOR, EXPERT_SURVEYOR, SURVEYOR],
+        permission: [EXPERT_SURVEYOR, SURVEYOR],
         component: CreatePage
 
     },
@@ -61,7 +61,7 @@ const pagesRoutes = [
         name: "My Survey",
         group: 1,
         icon: <VideoStableIcon />,
-        permission: [ADMINISTRATOR, EXPERT_SURVEYOR, SURVEYOR],
+        permission: [EXPERT_SURVEYOR, SURVEYOR],
         component: MySurveyPage
 
     },
@@ -70,7 +70,7 @@ const pagesRoutes = [
         name: "Review",
         group: 1,
         icon: <VideoStableIcon />,
-        permission: [ADMINISTRATOR, MODERATOR],
+        permission: [MODERATOR],
         component: ReviewPage
 
     },

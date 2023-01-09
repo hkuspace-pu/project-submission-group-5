@@ -42,7 +42,7 @@ class MySurveyPage extends React.Component {
         }) || []
         return (
             <div className={classes.container}>
-                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("This is still a work in progress.") }}>
+                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be deleted") }}>
                     <Chip label="Delete" color="primary" />
                 </Button>
                 <Grid container>
