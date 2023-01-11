@@ -9,7 +9,6 @@ import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import SearchPageStyle from "./SearchPageStyle"
 import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead } from "reducers/actions"
-import { EXPERT_SURVEYOR, GUEST } from "variables/common";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import "./ReactTable.scss"
@@ -19,7 +18,6 @@ class MySurveyPage extends React.Component {
         super(props);
         this.state = {
             userId: localStorage.getItem("userId") || "USER2636335",
-            userType: localStorage.getItem("userType") || GUEST,
         };
     }
 
@@ -33,18 +31,24 @@ class MySurveyPage extends React.Component {
 
     render() {
         const { classes, macaulayLibraryHead, macaulayLibraryData } = this.props
-        const { userId, userType } = this.state
-        const columns = macaulayLibraryHead ? [{ Header: "", accessor: "checked", id: "checked", value: 48, desc: false }, ...macaulayLibraryHead, { Header: "Status", accessor: "status", id: "status", value: 128, desc: false }] : []
+        const { userId } = this.state
+        const columns = macaulayLibraryHead ? [{ Header: "", accessor: "checked", id: "checked", value: 48, desc: false }, ...macaulayLibraryHead, { Header: "Approved", accessor: "status", id: "status", value: 128, desc: false }] : []
         const data = macaulayLibraryData?.results.content.filter(c => c.userId == userId).map((b, i) => {
             b.checked = <Checkbox disabled={false}></Checkbox>
             b.preview = <img src={b.previewUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/submit?assetId=" + b.assetId}><EditIcon /></a>
-            b.status = i % 2 ? "Private" : ((i == 0 || i % 3) && userType != EXPERT_SURVEYOR ? "Pending" : "Public")
+            b.status = i % 2 ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />
             return b
         }) || []
         return (
             <div className={classes.container}>
-                <Button className={classes.button} style={{ marginBottom: "2%" }} onClick={() => { alert("All your selections will be deleted") }}>
+                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be withdrawed") }}>
+                    <Chip label="Withdraw" color="primary" />
+                </Button>
+                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be submitted") }}>
+                    <Chip label="Submit" color="primary" />
+                </Button>
+                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be deleted") }}>
                     <Chip label="Delete" color="primary" />
                 </Button>
                 <Grid container>
@@ -79,4 +83,4 @@ const mapDispatchToProps = {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(SearchPageStyle)(MySurveyPage));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(SearchPageStyle)(MySurveyPage));/
