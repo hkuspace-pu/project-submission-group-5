@@ -1,0 +1,119 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Actor Surveyor
+Actor Moderator
+Actor Expert
+Actor Admin
+database Database
+
+group General
+
+    group /survey/search
+        Surveyor -> System : Select List View / Map View / Photo Thumbnails View
+        System -> Surveyor : Display all public record
+    end
+
+    group /survey/submit
+        Surveyor -> System : Create new survey record
+        System -> Database : Insert record and set status to "waiting for approve"
+        System -> Moderator : Waiting for approve
+        Moderator -> System : Approve the survey record
+        System -> Database : Set status to "approved"
+        System -> System : Public for all user
+    end
+
+    group /survey/mysurvey
+        Surveyor -> System : View / Edit / Delete record
+    end
+
+    group /survey/profile
+        Surveyor -> System : View / Edit profile
+    end
+
+    group /survey/preferences
+        Surveyor -> System : On / Off notification
+        Surveyor -> System : Select Language
+    end
+
+end
+
+group Moderator
+
+    group /survey/search
+        Moderator -> System : Select List View / Map View / Photo Thumbnails View
+        System -> Moderator : Display all public record
+    end
+
+    group /survey/review
+        Moderator -> System : Edit and Approve record which status to "waiting for approve"
+    end
+
+    group /survey/profile
+        Moderator -> System : View / Edit profile
+    end
+
+    group /survey/preferences
+        Moderator -> System : On / Off notification
+        Moderator -> System : Select Language
+    end
+
+end
+
+group Expert
+
+    group /survey/search
+        Expert -> System : Select List View / Map View / Photo Thumbnails View
+        System -> Expert : Display all public record and expert record
+    end
+
+    group /survey/submit
+        Expert -> System : Create new survey record
+        System -> Database : Insert record
+        System -> Database : Set status "approved"
+        System -> System : Public for all expert user
+    end
+
+    group /survey/mysurvey
+        Expert -> System : View / Edit / Delete record
+    end
+
+    group /survey/profile
+        Expert -> System : View / Edit profile
+    end
+
+    group /survey/preferences
+        Expert -> System : On / Off notification
+        Expert -> System : Select Language
+    end
+
+end
+
+group Admin
+
+    group /survey/search
+        Admin -> System : Select List View / Map View / Photo Thumbnails View
+        System -> Admin : Display all public record and expert record
+    end
+
+    group /survey/profile
+        Admin -> System : View / Edit profile
+    end
+
+    group /survey/preferences
+        Admin -> System : On / Off notification
+        Admin -> System : Select Language
+    end
+
+    group /survey/users
+        Admin -> System : Edit / Remove user
+        Admin -> System : Create new moderator user
+        Admin -> System : Create new expert user
+        Admin -> System : Create new admin user
+    end
+
+     group /survey/setting
+        Admin -> System : Add / Edit / Remove pre-species list
+    end
+
+end
