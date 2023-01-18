@@ -42,6 +42,12 @@ class MySurveyPage extends React.Component {
         }) || []
         return (
             <div className={classes.container}>
+                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be withdrawed") }}>
+                    <Chip label="Withdraw" color="primary" />
+                </Button>
+                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be submitted") }}>
+                    <Chip label="Submit" color="primary" />
+                </Button>
                 <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be deleted") }}>
                     <Chip label="Delete" color="primary" />
                 </Button>
