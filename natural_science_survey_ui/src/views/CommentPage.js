@@ -32,7 +32,7 @@ class CommentPage extends React.Component {
         };
     }
     componentDidMount() {
-        const users = macaulayLibraryData.results.content.reduce((o, c) => { o[c.userId] = c; return o }, {})
+        const users = macaulayLibraryData.results?.content.reduce((o, c) => { o[c.userId] = c; return o }, {})
         const comments = Object.keys(users).slice(0, 3).map((id, i) => {
             return {
                 userDisplayName: users[id].userDisplayName,

@@ -82,7 +82,7 @@ class SearchPage extends React.Component {
             columns = [{ Header: "", accessor: "checked", id: "checked", value: 48, desc: false }, { Header: "Type", accessor: "type", id: "type", value: 64, desc: false }, ...columns]
         }
 
-        const data = macaulayLibraryData?.results.content.map((b, i) => {
+        const data = macaulayLibraryData?.results?.content.map((b, i) => {
             b.checked = <Checkbox disabled={false}></Checkbox>
             b.preview = <img src={b.previewUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/item?id=" + i}><FindInPageIcon /></a>

@@ -25,7 +25,7 @@ class SettingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: macaulayLibraryData.results.content.reduce((o, c) => { o[c.commonName] = c.subjectData[0].speciesCode; return o }, {}),
+            data: macaulayLibraryData.results?.content.reduce((o, c) => { o[c.commonName] = c.subjectData[0].speciesCode; return o }, {}),
             commonName: "",
             speciesCode: "",
         };

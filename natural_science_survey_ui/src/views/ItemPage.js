@@ -21,7 +21,7 @@ class ItemPage extends React.Component {
     }
     componentDidMount() {
         let id = new URLSearchParams(window.location.search).get("id")
-        let data = macaulayLibraryData.results.content[id]
+        let data = macaulayLibraryData.results?.content[id]
         if (data) {
             this.setState({ data })
         } else {
