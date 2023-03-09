@@ -19,7 +19,7 @@ const LoginPageStyle = theme => ({
         paddingLeft: "15px",
         marginRight: "auto",
         marginLeft: "auto",
-        minHeight: "750px",
+        minHeight: "1024px",
         "@media (min-width: 768px)": {
             width: "750px"
         },

@@ -32,7 +32,7 @@ class CreatePage extends React.Component {
     }
     componentDidMount() {
         let assetId = new URLSearchParams(window.location.search).get("assetId") || 0
-        let data = macaulayLibraryData.results.content.filter(c => c.assetId == assetId)?.[0] || macaulayLibraryData.results.content[0]
+        let data = macaulayLibraryData.results?.content.filter(c => c.assetId == assetId)?.[0] || macaulayLibraryData.results?.content[0]
         if (data) {
             this.setState({ data })
         } else {
@@ -114,7 +114,7 @@ class CreatePage extends React.Component {
                             </Button>
                         </div>
                         :
-                        <Button onClick={() => { macaulayLibraryData.results.content.push(data); createItem(macaulayLibraryData); localStorage.getItem("userType") == SURVEYOR ? alert("Your survey record has been successfully created. Will wait for moderator approval.") : alert("Survey record created successfully.") }} className={classes.button}>
+                        <Button onClick={() => { macaulayLibraryData.results?.content.push(data); createItem(macaulayLibraryData); localStorage.getItem("userType") == SURVEYOR ? alert("Your survey record has been successfully created. Will wait for moderator approval.") : alert("Survey record created successfully.") }} className={classes.button}>
                             <NavLink to={"/survey/search"} >
                                 Submit
                             </NavLink>

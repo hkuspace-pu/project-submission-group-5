@@ -33,7 +33,7 @@ class MySurveyPage extends React.Component {
         const { classes, macaulayLibraryHead, macaulayLibraryData } = this.props
         const { userId } = this.state
         const columns = macaulayLibraryHead ? [{ Header: "", accessor: "checked", id: "checked", value: 48, desc: false }, ...macaulayLibraryHead, { Header: "Approved", accessor: "status", id: "status", value: 128, desc: false }] : []
-        const data = macaulayLibraryData?.results.content.filter(c => c.userId == userId).map((b, i) => {
+        const data = macaulayLibraryData?.results?.content.filter(c => c.userId == userId).map((b, i) => {
             b.checked = <Checkbox disabled={false}></Checkbox>
             b.preview = <img src={b.previewUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/submit?assetId=" + b.assetId}><EditIcon /></a>

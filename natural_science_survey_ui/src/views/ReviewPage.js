@@ -31,7 +31,7 @@ class ReviewPage extends React.Component {
         const { classes, macaulayLibraryHead, macaulayLibraryData } = this.props
         const { checked } = this.state
         const columns = macaulayLibraryHead ? [...macaulayLibraryHead, { Header: "Approved", accessor: "status", id: "status", value: 128, desc: false }] : []
-        const data = macaulayLibraryData?.results.content.map((b, i) => {
+        const data = macaulayLibraryData?.results?.content.map((b, i) => {
             b.preview = <img src={b.previewUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/submit?assetId=" + b.assetId}><EditIcon /></a>
             b.status = <Button onClick={() => { checked[i] = !checked[i]; this.setState({ checked }) }}>{checked[i] ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}</Button>

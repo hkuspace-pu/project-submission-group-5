@@ -53,7 +53,7 @@ class UserPermissionPage extends React.Component {
                     return SURVEYOR
             }
         }
-        const data = macaulayLibraryData?.results.content.filter((c) => (c.userId + c.userDisplayName).indexOf(search) > -1).reduce((o, c, i) => { o["(" + c.userId + ") " + c.userDisplayName] = getUserType(i % 4); return o }, {}) || []
+        const data = macaulayLibraryData?.results?.content.filter((c) => (c.userId + c.userDisplayName).indexOf(search) > -1).reduce((o, c, i) => { o["(" + c.userId + ") " + c.userDisplayName] = getUserType(i % 4); return o }, {}) || []
         const convert = (d) => {
             if (d.length && d.length > 0) {
                 return <List>

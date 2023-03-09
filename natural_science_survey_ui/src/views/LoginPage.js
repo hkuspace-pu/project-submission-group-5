@@ -39,7 +39,7 @@ class LoginPage extends React.Component {
     render() {
         const { classes } = this.props
         const { username, password, useUserHistory } = this.state
-        const users = macaulayLibraryData.results.content.reduce((o, c) => { o[c.userId] = c; return o }, {})
+        const users = macaulayLibraryData.results?.content.reduce((o, c) => { o[c.userId] = c; return o }, {})
         const getUserType = (i) => {
             switch (i) {
                 case 0:
