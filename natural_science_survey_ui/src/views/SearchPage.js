@@ -17,7 +17,7 @@ import Input from "@material-ui/core/Input";
 import Checkbox from '@mui/material/Checkbox';
 import SearchPageStyle from "./SearchPageStyle"
 import Map from "../components/Map"
-import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead } from "reducers/actions"
+import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead, fetchRecords } from "reducers/actions"
 import { EXPERT_SURVEYOR } from "variables/common"
 import "./ReactTable.scss"
 import { Button } from "@material-ui/core";
@@ -64,31 +64,39 @@ class SearchPage extends React.Component {
     componentDidMount() {
         const { macaulayLibraryHead, macaulayLibraryData } = this.props
         if (!macaulayLibraryHead || !macaulayLibraryData) {
-            this.props.fetchMacaulayLibraryData()
-            this.props.fetchMacaulayLibraryHead()
+            // this.props.fetchMacaulayLibraryData()
+            // this.props.fetchMacaulayLibraryHead()
         }
+        this.props.fetchRecords()
     }
 
     handleChange = (event, newValue) => {
-        console.log(event, newValue)
         this.setState({ tabValue: newValue })
     };
 
     render() {
-        const { classes, macaulayLibraryHead, macaulayLibraryData } = this.props
+        const { classes, macaulayLibraryHead, macaulayLibraryData, records } = this.props
         const { tabValue } = this.state
-        var columns = macaulayLibraryHead || []
+        var columns = [
+            { Header: "", accessor: "preview", id: "preview", value: 128, desc: false },
+            { Header: "Name", accessor: "speciesID", id: "speciesID", value: 192, desc: true },
+            { Header: "Date", accessor: "dateObserved", id: "dateObserved", value: 128, desc: true },
+            { Header: "Observer", accessor: "userID", id: "userID", value: 128, desc: true },
+            { Header: "Location", accessor: "location", id: "location", value: 320, desc: true },
+            { Header: "", accessor: "action", id: "action", value: 48, desc: false },
+        ]
         if (localStorage.getItem("userType") == EXPERT_SURVEYOR) {
             columns = [{ Header: "", accessor: "checked", id: "checked", value: 48, desc: false }, { Header: "Type", accessor: "type", id: "type", value: 64, desc: false }, ...columns]
         }
 
-        const data = macaulayLibraryData?.results?.content.map((b, i) => {
+        const data = records.length && records?.map((b, i) => {
             b.checked = <Checkbox disabled={false}></Checkbox>
-            b.preview = <img src={b.previewUrl + 320} className={classes.previewImg} />
-            b.action = <a href={"/survey/item?id=" + i}><FindInPageIcon /></a>
-            b.type = i < 10 ? <Chip label="PRO" color="primary" /> : ""
+            b.preview = <img src={b.photoUrl + 320} className={classes.previewImg} />
+            b.action = <a href={"/survey/item?id=" + b.recordID}><FindInPageIcon /></a>
+            b.type = b.recordID < 10 ? <Chip label="PRO" color="primary" /> : ""
             return b
         }) || []
+
         return (
             <div className={classes.container}>
                 <Grid container>
@@ -215,14 +223,16 @@ class SearchPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        macaulayLibraryHead: state.common.macaulayLibraryHead,
-        macaulayLibraryData: state.common.macaulayLibraryData,
+        // macaulayLibraryHead: state.common.macaulayLibraryHead,
+        // macaulayLibraryData: state.common.macaulayLibraryData,
+        records: state.common.records || []
     }
 }
 
 const mapDispatchToProps = {
-    fetchMacaulayLibraryData,
-    fetchMacaulayLibraryHead
+    // fetchMacaulayLibraryData,
+    // fetchMacaulayLibraryHead,
+    fetchRecords,
 }
 
 
