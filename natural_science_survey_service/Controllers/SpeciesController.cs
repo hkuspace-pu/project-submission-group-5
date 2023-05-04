@@ -6,35 +6,35 @@ namespace NSSService.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class RecordController : ControllerBase
+public class SpeciesController : ControllerBase
 {
     private readonly NSSServiceContext _context;
-    public RecordController(NSSServiceContext context)
+    public SpeciesController(NSSServiceContext context)
     {
         _context = context;
     }
 
     // GET all action
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Record>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Species>>> GetAll()
     {
-        return await _context.Records
+        return await _context.Species
             .Select(x => x)
             .ToListAsync();
     }
 
     // GET by Id action
     [HttpGet("{id}")]
-    public async Task<ActionResult<Record>> GetRecordById(int id)
+    public async Task<ActionResult<Species>> GetSpeciesById(int id)
     {
-        var record = await _context.Records.FindAsync(id);
+        var species = await _context.Species.FindAsync(id);
 
-        if (record == null)
+        if (species == null)
         {
             return NotFound();
         }
 
-        return record;
+        return species;
     }
 
 }

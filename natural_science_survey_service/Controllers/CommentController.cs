@@ -6,35 +6,35 @@ namespace NSSService.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class RecordController : ControllerBase
+public class CommentController : ControllerBase
 {
     private readonly NSSServiceContext _context;
-    public RecordController(NSSServiceContext context)
+    public CommentController(NSSServiceContext context)
     {
         _context = context;
     }
 
     // GET all action
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Record>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Comment>>> GetAll()
     {
-        return await _context.Records
+        return await _context.Comment
             .Select(x => x)
             .ToListAsync();
     }
 
     // GET by Id action
     [HttpGet("{id}")]
-    public async Task<ActionResult<Record>> GetRecordById(int id)
+    public async Task<ActionResult<Comment>> GetCommentById(int id)
     {
-        var record = await _context.Records.FindAsync(id);
+        var comment = await _context.Comment.FindAsync(id);
 
-        if (record == null)
+        if (comment == null)
         {
             return NotFound();
         }
 
-        return record;
+        return comment;
     }
 
 }

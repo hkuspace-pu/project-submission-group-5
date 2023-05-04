@@ -6,35 +6,35 @@ namespace NSSService.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class RecordController : ControllerBase
+public class NewsController : ControllerBase
 {
     private readonly NSSServiceContext _context;
-    public RecordController(NSSServiceContext context)
+    public NewsController(NSSServiceContext context)
     {
         _context = context;
     }
 
     // GET all action
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Record>>> GetAll()
+    public async Task<ActionResult<IEnumerable<News>>> GetAll()
     {
-        return await _context.Records
+        return await _context.News
             .Select(x => x)
             .ToListAsync();
     }
 
     // GET by Id action
     [HttpGet("{id}")]
-    public async Task<ActionResult<Record>> GetRecordById(int id)
+    public async Task<ActionResult<News>> GetNewsById(int id)
     {
-        var record = await _context.Records.FindAsync(id);
+        var news = await _context.News.FindAsync(id);
 
-        if (record == null)
+        if (news == null)
         {
             return NotFound();
         }
 
-        return record;
+        return news;
     }
 
 }
