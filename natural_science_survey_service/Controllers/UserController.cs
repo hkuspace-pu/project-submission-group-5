@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace NSSService.Controllers;
@@ -33,10 +29,10 @@ public class UserController : ControllerBase
         var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim("Id", user.Id.ToString()),
-            new Claim("UserType", user.UserType),
-            new Claim("Email", user.Email),
-            new Claim("Password", user.Password),
+            new Claim("id", user.UserID.ToString()),
+            new Claim("type", user.UserType),
+            new Claim("email", user.Email),
+            new Claim("password", user.Password),
         };
 
         // Create a security key
@@ -59,6 +55,15 @@ public class UserController : ControllerBase
 
         // Return the JWT token as the result
         return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+    }
+
+    // GET all action
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<User>>> GetAll()
+    {
+        return await _context.Users
+            .Select(x => x)
+            .ToListAsync();
     }
 
 }
