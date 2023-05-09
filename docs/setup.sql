@@ -6,6 +6,16 @@ CREATE TABLE Species (
   SciName varchar(255) NOT NULL
 );
 
+-- Create the Users table
+CREATE TABLE Users (
+  UserID int PRIMARY KEY,
+  PhotoUrl varchar(255) NOT NULL,
+  Name varchar(255) NOT NULL,
+  Email varchar(255) NOT NULL,
+  Password varchar(255) NOT NULL,
+  UserType varchar(50) NOT NULL
+);
+
 -- Create the Records table
 CREATE TABLE Records (
   RecordID int PRIMARY KEY,
@@ -25,16 +35,6 @@ CREATE TABLE Records (
   CONSTRAINT fk_user FOREIGN KEY (UserID) REFERENCES Users(UserID),
   CONSTRAINT fk_reviewer_id FOREIGN KEY (UserID) REFERENCES Users(UserID),
   CONSTRAINT fk_species FOREIGN KEY (SpeciesID) REFERENCES Species(SpeciesID)
-);
-
--- Create the Users table
-CREATE TABLE Users (
-  UserID int PRIMARY KEY,
-  PhotoUrl varchar(255) NOT NULL,
-  Name varchar(255) NOT NULL,
-  Email varchar(255) NOT NULL,
-  Password varchar(255) NOT NULL,
-  UserType varchar(50) NOT NULL
 );
 
 -- Create the News table

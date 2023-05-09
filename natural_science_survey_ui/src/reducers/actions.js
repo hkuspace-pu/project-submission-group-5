@@ -92,3 +92,37 @@ export const fetchComments = () => {
             });
     }
 }
+
+export const postUserLogin = (email, password) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'login' })
+        fetch(`${isDev ? devHost : ''}/User/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email, password,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('userDisplayName', data.name);
+                localStorage.setItem('userType', data.userType);
+                localStorage.setItem('email', data.email);
+                dispatch({ type: types.API_RETRIEVED, key: 'login', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'login', payload: { error } })
+            });
+    }
+}
+
+export const getToken = () => {
+    let token = localStorage.getItem('token')
+    if (token) {
+        return token
+    } else {
+        window.location = '/login';
+    }
+}

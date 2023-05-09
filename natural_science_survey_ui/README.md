@@ -9,6 +9,7 @@ Node version `v14.17.0` is recommended for this project
 - https://mui.com/material-ui/getting-started/overview/
 - https://wallpaperaccess.com/bird
 - https://github.com/mui/material-ui/tree/master/examples
+- https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
 # Getting Started with Create React App
 

@@ -23,16 +23,20 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login([FromBody] User user)
+    public async Task<IActionResult> Login([FromBody] UserLogin user)
     {
+        var profile = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.Password);
+        if (profile == null)
+        {
+            return NotFound();
+        }
         // Create a claims list for the JWT
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim("id", user.UserID.ToString()),
-            new Claim("type", user.UserType),
-            new Claim("email", user.Email),
-            new Claim("password", user.Password),
+            new Claim(JwtRegisteredClaimNames.Sub, profile.Email),
+            new Claim("email", profile.Email),
+            new Claim("userType", profile.UserType),
+            new Claim("name", profile.Name),
         };
 
         // Create a security key
@@ -54,7 +58,7 @@ public class UserController : ControllerBase
             signingCredentials: creds);
 
         // Return the JWT token as the result
-        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), userType = profile.UserType, email = profile.Email, name = profile.Name });
     }
 
     // GET all action
