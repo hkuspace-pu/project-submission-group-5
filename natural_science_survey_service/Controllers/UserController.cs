@@ -70,4 +70,22 @@ public class UserController : ControllerBase
             .ToListAsync();
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] User user)
+    {
+        var id = await _context.Users.CountAsync();
+        var newUser = new User
+        {
+            UserID = id + 1,
+            Email = user.Email,
+            Password = user.Password,
+            Name = user.Name,
+            PhotoUrl = user.PhotoUrl,
+            UserType = "user"
+        };
+        _context.Users.Add(newUser);
+        await _context.SaveChangesAsync();
+        return Ok(new { newUser });
+    }
+
 }

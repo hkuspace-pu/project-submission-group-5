@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
@@ -14,6 +15,8 @@ import EmailIcon from '@mui/icons-material/Email';
 
 import LoginPageStyle from "./LoginPageStyle"
 import { COMPANY_NAME } from "variables/common"
+
+import { postUserCreate } from "reducers/actions";
 
 class RegisterPage extends React.Component {
     constructor(props) {
@@ -36,6 +39,38 @@ class RegisterPage extends React.Component {
                     <Grid item xs={8} sm={6} md={4} className={classes.formItem}>
                         <form >
                             <h4 className={classes.title}>Register your {COMPANY_NAME} Account</h4>
+                            <FormControl>
+                                <InputLabel>
+                                    Email address
+                                </InputLabel>
+                                <Input
+                                    value={email}
+                                    endAdornment={(
+                                        <InputAdornment position="end">
+                                            <EmailIcon />
+                                        </InputAdornment>
+                                    )}
+                                    onChange={(event) => { this.setState({ email: event.target.value }) }}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <InputLabel>
+                                    Choose a password
+                                </InputLabel>
+                                <Input
+                                    value={password}
+                                    type="password"
+                                    endAdornment={(
+                                        <InputAdornment position="end">
+                                            <PasswordIcon />
+                                        </InputAdornment>
+                                    )}
+                                    onChange={(event) => { this.setState({ password: event.target.value }) }}
+                                />
+                                <FormHelperText>
+                                    At least 8 characters are required
+                                </FormHelperText>
+                            </FormControl>
                             <FormControl>
                                 <InputLabel>
                                     First Name
@@ -64,53 +99,14 @@ class RegisterPage extends React.Component {
                                     onChange={(event) => { this.setState({ lastname: event.target.value }) }}
                                 />
                             </FormControl>
-                            <FormControl>
-                                <InputLabel>
-                                    Choose a username
-                                </InputLabel>
-                                <Input
-                                    value={username}
-                                    endAdornment={(
-                                        <InputAdornment position="end">
-                                            <PersonIcon />
-                                        </InputAdornment>
-                                    )}
-                                    onChange={(event) => { this.setState({ username: event.target.value }) }}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <InputLabel>
-                                    Choose a password
-                                </InputLabel>
-                                <Input
-                                    value={password}
-                                    endAdornment={(
-                                        <InputAdornment position="end">
-                                            <PasswordIcon />
-                                        </InputAdornment>
-                                    )}
-                                    onChange={(event) => { this.setState({ password: event.target.value }) }}
-                                />
-                                <FormHelperText>
-                                    At least 8 characters are required
-                                </FormHelperText>
-                            </FormControl>
-                            <FormControl>
-                                <InputLabel>
-                                    Email address
-                                </InputLabel>
-                                <Input
-                                    value={email}
-                                    endAdornment={(
-                                        <InputAdornment position="end">
-                                            <EmailIcon />
-                                        </InputAdornment>
-                                    )}
-                                    onChange={(event) => { this.setState({ email: event.target.value }) }}
-                                />
-                            </FormControl>
                             <div className={classes.footer}>
-                                <Button className={classes.button} onClick={() => { console.log(this.state); window.location = "/login" }}>
+                                <Button className={classes.button} onClick={() => {
+                                    if (!this.state.firstname || !this.state.lastname || !this.state.email || !this.state.password) {
+                                        alert("Please input the information.")
+                                    } else {
+                                        this.props.postUserCreate(`${this.state.firstname} ${this.state.lastname}`, this.state.email, this.state.password)
+                                    }
+                                }}>
                                     Register
                                 </Button>
                             </div>
@@ -122,4 +118,15 @@ class RegisterPage extends React.Component {
     }
 }
 
-export default withStyles(LoginPageStyle)(RegisterPage);
+const mapStateToProps = (state) => {
+    return {
+        user: state.common.user,
+    }
+}
+
+const mapDispatchToProps = {
+    postUserCreate,
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(LoginPageStyle)(RegisterPage));

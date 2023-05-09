@@ -119,6 +119,33 @@ export const postUserLogin = (email, password) => {
     }
 }
 
+export const postUserCreate = (name, email, password) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'user' })
+        fetch(`${isDev ? devHost : ''}/User`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "name": name,
+                "photoUrl": "",
+                "email": email,
+                "password": password,
+                "userType": "user"
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                window.location = "/login"
+                dispatch({ type: types.API_RETRIEVED, key: 'user', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'user', payload: { error } })
+            });
+    }
+}
+
+
 export const getToken = () => {
     let token = localStorage.getItem('token')
     if (token) {
