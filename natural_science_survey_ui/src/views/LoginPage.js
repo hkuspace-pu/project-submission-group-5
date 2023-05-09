@@ -26,9 +26,10 @@ class LoginPage extends React.Component {
         };
     }
     componentDidMount() {
-        localStorage.setItem('userId', "");
-        localStorage.setItem('userDisplayName', GUEST);
-        localStorage.setItem('userType', GUEST);
+        localStorage.removeItem('token');
+        localStorage.removeItem('userDisplayName');
+        localStorage.removeItem('userType');
+        localStorage.removeItem('email');
     }
     render() {
         const { classes } = this.props
@@ -86,7 +87,6 @@ class LoginPage extends React.Component {
                                     <Button className={classes.button} onClick={() => {
                                         if (username && password) {
                                             this.props.postUserLogin(username, password)
-                                            window.location = "/survey/search"
                                         } else {
                                             alert("Please enter your username and password to login.")
                                         }
