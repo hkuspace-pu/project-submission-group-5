@@ -88,4 +88,20 @@ public class UserController : ControllerBase
         return Ok(new { newUser });
     }
 
+    [HttpPost]
+    [Route("update")]
+    public async Task<IActionResult> Update([FromBody] User user)
+    {
+        var oldUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+
+        if (oldUser == null)
+        {
+            return NotFound();
+        }
+
+        oldUser.Name = user.Name;
+        oldUser.Password = user.Password;
+        await _context.SaveChangesAsync();
+        return Ok(new { oldUser });
+    }
 }

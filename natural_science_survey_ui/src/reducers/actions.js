@@ -145,6 +145,31 @@ export const postUserCreate = (name, email, password) => {
     }
 }
 
+export const postUserUpdate = (name, password) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'user' })
+        fetch(`${isDev ? devHost : ''}/User/update`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "name": name,
+                "photoUrl": "",
+                "email": localStorage.getItem('email'),
+                "password": password,
+                "userType": ""
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'user', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'user', payload: { error } })
+            });
+    }
+}
+
 
 export const getToken = () => {
     let token = localStorage.getItem('token')
