@@ -19,7 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Button from "@material-ui/core/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { NavLink } from "react-router-dom";
-import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
+import { macaulayLibraryData, macaulayLibraryHead, } from "variables/template"
 import { SURVEYOR } from "variables/common"
 import { toTitleCase } from "utils/utils"
 
@@ -27,17 +27,32 @@ class CreatePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {}
+            data: {
+                "recordID": 1,
+                "userID": 1,
+                "speciesID": 1,
+                "longitude": -123.1207,
+                "latitude": 49.2827,
+                "dateObserved": "2023-04-28T09:00:00",
+                "age": 2,
+                "sex": 2,
+                "location": "Stanley Park",
+                "photoUrl": "https://example.com/record1.jpg",
+                "width": 800,
+                "height": 600,
+                "status": 1,
+                "reviewerID": 3
+              },
         };
     }
     componentDidMount() {
-        let assetId = new URLSearchParams(window.location.search).get("assetId") || 0
-        let data = macaulayLibraryData.results?.content.filter(c => c.assetId == assetId)?.[0] || macaulayLibraryData.results?.content[0]
-        if (data) {
-            this.setState({ data })
-        } else {
-            window.location = "/survey/search"
-        }
+        // let assetId = new URLSearchParams(window.location.search).get("assetId") || 0
+        // let data = macaulayLibraryData.results?.content.filter(c => c.assetId == assetId)?.[0] || macaulayLibraryData.results?.content[0]
+        // if (data) {
+        //     this.setState({ data })
+        // } else {
+        //     window.location = "/survey/search"
+        // }
     }
     render() {
         const { classes, createItem } = this.props
@@ -95,7 +110,7 @@ class CreatePage extends React.Component {
                         <Typography variant="subtitle1" noWrap component="div">
                             {data.location}
                         </Typography>
-                        <img src={data.previewUrl} />
+                        <img src={data.photoUrl} />
                         <Button onClick={() => { }} className={classes.button}>
                             Upload Attachment
                         </Button>
