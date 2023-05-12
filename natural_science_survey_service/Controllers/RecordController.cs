@@ -37,4 +37,14 @@ public class RecordController : ControllerBase
         return record;
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] Record record)
+    {
+        var id = await _context.Records.CountAsync();
+        record.RecordID = id + 1;
+        _context.Records.Add(record);
+        await _context.SaveChangesAsync();
+        return Ok(new { record });
+    }
+
 }

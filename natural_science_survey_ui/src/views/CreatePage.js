@@ -22,6 +22,8 @@ import { NavLink } from "react-router-dom";
 import { macaulayLibraryData, macaulayLibraryHead, } from "variables/template"
 import { SURVEYOR } from "variables/common"
 import { toTitleCase } from "utils/utils"
+import CardImageUpload from "components/CardImageUpload";
+import { postRecordCreate } from "reducers/actions";
 
 class CreatePage extends React.Component {
     constructor(props) {
@@ -31,18 +33,18 @@ class CreatePage extends React.Component {
                 "recordID": 1,
                 "userID": 1,
                 "speciesID": 1,
-                "longitude": -123.1207,
-                "latitude": 49.2827,
-                "dateObserved": "2023-04-28T09:00:00",
-                "age": 2,
-                "sex": 2,
-                "location": "Stanley Park",
-                "photoUrl": "https://example.com/record1.jpg",
-                "width": 800,
-                "height": 600,
+                "longitude": 0,
+                "latitude": 0,
+                "dateObserved": "",
+                "age": 0,
+                "sex": 0,
+                "location": "",
+                "photoUrl": "",
+                "width": 0,
+                "height": 0,
                 "status": 1,
                 "reviewerID": 3
-              },
+            },
         };
     }
     componentDidMount() {
@@ -67,6 +69,9 @@ class CreatePage extends React.Component {
             }
             return <List>
                 {Object.keys(d).map((k) => {
+                    if (k == "photoUrl") {
+                        return null
+                    }
                     return (
                         <ListItem>
                             <Grid container>
@@ -97,6 +102,7 @@ class CreatePage extends React.Component {
                 })}
             </List>
         }
+
         return (
             <div className={classes.container}>
                 <Grid container >
@@ -110,10 +116,22 @@ class CreatePage extends React.Component {
                         <Typography variant="subtitle1" noWrap component="div">
                             {data.location}
                         </Typography>
-                        <img src={data.photoUrl} />
-                        <Button onClick={() => { }} className={classes.button}>
-                            Upload Attachment
-                        </Button>
+                        <CardImageUpload
+                            fullWidth
+                            id="photo"
+                            name="photo"
+                            imgSrc={data.photoUrl}
+                            imgHandler={
+                                event => {
+                                    console.log(event)
+                                    data.photoUrl = URL.createObjectURL(event.target.files[0])
+                                    this.setState({...data})
+                                }
+                            }
+                            title={"photo"}
+                            imageSpec={"Image spec: 1920 x 1080"}
+                            imageFormat={"Format: gif, jpg and png"}
+                        />
                         <Divider />
                         {convert(data)}
                     </List>
@@ -129,7 +147,9 @@ class CreatePage extends React.Component {
                             </Button>
                         </div>
                         :
-                        <Button onClick={() => { macaulayLibraryData.results?.content.push(data); createItem(macaulayLibraryData); localStorage.getItem("userType") == SURVEYOR ? alert("Your survey record has been successfully created. Will wait for moderator approval.") : alert("Survey record created successfully.") }} className={classes.button}>
+                        <Button onClick={() => { console.log(data); 
+                            this.props.postRecordCreate(data)
+                            localStorage.getItem("userType") == SURVEYOR ? alert("Your survey record has been successfully created. Will wait for moderator approval.") : alert("Survey record created successfully.") }} className={classes.button}>
                             <NavLink to={"/survey/search"} >
                                 Submit
                             </NavLink>
@@ -142,12 +162,12 @@ class CreatePage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.common.macaulayLibraryData
+        data: state.common.record
     }
 }
 
 const mapDispatchToProps = {
-    createItem
+    postRecordCreate,
 }
 
 

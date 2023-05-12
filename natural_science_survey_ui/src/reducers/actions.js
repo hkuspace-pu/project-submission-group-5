@@ -170,6 +170,24 @@ export const postUserUpdate = (name, password) => {
     }
 }
 
+export const postRecordCreate = (record) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'record' })
+        fetch(`${isDev ? devHost : ''}/Record`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(record),
+        })
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'record', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'record', payload: { error } })
+            });
+    }
+}
 
 export const getToken = () => {
     let token = localStorage.getItem('token')
