@@ -189,6 +189,19 @@ export const postRecordCreate = (record) => {
     }
 }
 
+export const fetchRecordById = (id) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'record' })
+        fetch(`${isDev ? devHost : ''}/Record/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'record', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'record', payload: { error } })
+            });
+    }
+}
+
 export const getToken = () => {
     let token = localStorage.getItem('token')
     if (token) {

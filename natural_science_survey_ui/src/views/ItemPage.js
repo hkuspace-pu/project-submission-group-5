@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import ItemPageStyle from "./ItemPageStyle"
@@ -12,25 +13,32 @@ import ListItemText from '@mui/material/ListItemText';
 import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
 import { toTitleCase } from "utils/utils"
 import CommentPage from "views/CommentPage"
+import CardImageUpload from "components/CardImageUpload";
+import { fetchRecordById } from "reducers/actions";
+
 class ItemPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {}
         };
     }
+    // componentWillMount() {
+    //     let id = new URLSearchParams(window.location.search).get("id")
+    //     this.props.fetchRecordById(id)
+    // }
     componentDidMount() {
         let id = new URLSearchParams(window.location.search).get("id")
-        let data = macaulayLibraryData.results?.content[id]
-        if (data) {
-            this.setState({ data })
-        } else {
-            window.location = "/survey/search"
-        }
+        this.props.fetchRecordById(id)
     }
+
+    // componentDidUpdate() {
+    //     let data = this.props.data
+    //     if (data) {
+    //         this.setState({ data })
+    //     } 
+    // }
     render() {
-        const { classes } = this.props
-        const { data } = this.state
+        const { classes, data } = this.props
         const convert = (d) => {
             if (d.length && d.length > 0) {
                 return <List>
@@ -72,7 +80,14 @@ class ItemPage extends React.Component {
                         <Typography variant="subtitle1" noWrap component="div">
                             {data.location}
                         </Typography>
-                        <img src={data.previewUrl} />
+                        <CardImageUpload
+                            fullWidth
+                            disabled
+                            id="photo"
+                            name="photo"
+                            imgSrc={data.photoUrl}
+                            title={"photo"}
+                        />
                         <Divider />
                         {convert(data)}
                     </List>
@@ -83,4 +98,15 @@ class ItemPage extends React.Component {
     }
 }
 
-export default withStyles(ItemPageStyle)(ItemPage);
+const mapStateToProps = (state) => {
+    return {
+        data: state.common.record || {}
+    }
+}
+
+const mapDispatchToProps = {
+    fetchRecordById,
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(ItemPageStyle)(ItemPage));
