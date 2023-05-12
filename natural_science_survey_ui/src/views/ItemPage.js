@@ -7,10 +7,7 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
 import { toTitleCase } from "utils/utils"
 import CommentPage from "views/CommentPage"
 import CardImageUpload from "components/CardImageUpload";
@@ -22,21 +19,12 @@ class ItemPage extends React.Component {
         this.state = {
         };
     }
-    // componentWillMount() {
-    //     let id = new URLSearchParams(window.location.search).get("id")
-    //     this.props.fetchRecordById(id)
-    // }
+
     componentDidMount() {
         let id = new URLSearchParams(window.location.search).get("id")
         this.props.fetchRecordById(id)
     }
 
-    // componentDidUpdate() {
-    //     let data = this.props.data
-    //     if (data) {
-    //         this.setState({ data })
-    //     } 
-    // }
     render() {
         const { classes, data } = this.props
         const convert = (d) => {

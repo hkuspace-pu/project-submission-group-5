@@ -25,16 +25,38 @@ public class CommentController : ControllerBase
 
     // GET by Id action
     [HttpGet("{id}")]
-    public async Task<ActionResult<Comment>> GetCommentById(int id)
+    public async Task<ActionResult<IEnumerable<Comment>>> GetCommentRecordById(int id)
     {
-        var comment = await _context.Comment.FindAsync(id);
+        var comments = await _context.Comment
+        .Where(c => c.RecordID == id)
+        .ToListAsync();
 
-        if (comment == null)
+        if (comments == null)
         {
             return NotFound();
         }
 
-        return comment;
+        return comments;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] Comment comment)
+    {
+        var id = await _context.Comment.CountAsync();
+        comment.CommentID = id + 1;
+        var newComment = new Comment
+        {
+            UserID = comment.UserID,
+            RecordID = comment.RecordID,
+            Content = comment.Content,
+            Rating = comment.Rating,
+            UpdatedAt = DateTime.Now,
+            CreatedAt = DateTime.Now
+        };
+
+        _context.Comment.Add(newComment);
+        await _context.SaveChangesAsync();
+        return Ok(new { newComment });
     }
 
 }

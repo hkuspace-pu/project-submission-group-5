@@ -202,6 +202,39 @@ export const fetchRecordById = (id) => {
     }
 }
 
+export const fetchCommentByRecordId = (id) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'comments' })
+        fetch(`${isDev ? devHost : ''}/Comment/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'comments', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'comments', payload: { error } })
+            });
+    }
+}
+
+export const postCommentCreate = (record) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'comment' })
+        fetch(`${isDev ? devHost : ''}/Comment`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(record),
+        })
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'comment', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'comment', payload: { error } })
+            });
+    }
+}
+
+
 export const getToken = () => {
     let token = localStorage.getItem('token')
     if (token) {

@@ -18,6 +18,7 @@ import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { macaulayLibraryData } from "variables/template";
 import Button from "@material-ui/core/Button";
+import { fetchCommentByRecordId, postCommentCreate } from "reducers/actions";
 
 class CommentPage extends React.Component {
     constructor(props) {
@@ -25,26 +26,31 @@ class CommentPage extends React.Component {
         this.state = {
             comments: [],
             userComment: {
-                userDisplayName: localStorage.getItem("userDisplayName"),
-                obsDttm: new Date().toDateString(),
+                commentID: 3,
+                userID: 3,
+                recordID: parseInt(new URLSearchParams(window.location.search).get("id")),
+                content: "",
                 rating: 5,
+                updatedAt: "2023-05-12T07:45:14.806Z",
+                createdAt: "2023-05-12T07:45:14.806Z",
             }
         };
     }
+
     componentDidMount() {
-        const users = macaulayLibraryData.results?.content.reduce((o, c) => { o[c.userId] = c; return o }, {})
-        const comments = Object.keys(users).slice(0, 3).map((id, i) => {
-            return {
-                userDisplayName: users[id].userDisplayName,
-                obsDttm: users[id].obsDttm,
-                content: i % 2 ? "Great!" : (i % 3 ? "Nice!" : "Thank you!"),
-                rating: 5 - i
-            }
-        })
-        this.setState({ comments })
+        let id = new URLSearchParams(window.location.search).get("id")
+        this.props.fetchCommentByRecordId(id)
     }
+
+    componentDidUpdate(prevProps) {
+        if (JSON.stringify(prevProps.comment) != JSON.stringify(this.props.comment)) {
+            this.props.fetchCommentByRecordId(new URLSearchParams(window.location.search).get("id"))
+        }
+    }
+
     render() {
-        const { comments, userComment } = this.state
+        const { comments } = this.props
+        const { userComment } = this.state
         const getRating = (rating) => {
             var c = []
             for (let i = 0; i < rating; i++) {
@@ -84,10 +90,23 @@ class CommentPage extends React.Component {
                         onChange={(event) => { userComment.content = event.target.value; this.setState({ userComment }) }}
                     />
                 </FormControl>
-                <Button style={{ marginTop: "2%", backgroundColor: "#c6c6c6de" }} onClick={() => { this.setState({ comments: [...comments, userComment] }) }}>Submit</Button>
+                <Button style={{ marginTop: "2%", backgroundColor: "#c6c6c6de" }} onClick={() => { this.props.postCommentCreate(userComment) }}>Submit</Button>
             </Grid>
         </Grid>
     }
 }
 
-export default CommentPage
+const mapStateToProps = (state) => {
+    return {
+        comment: state.common.comment,
+        comments: state.common.comments?.length && state.common.comments || []
+    }
+}
+
+const mapDispatchToProps = {
+    fetchCommentByRecordId,
+    postCommentCreate
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentPage);
