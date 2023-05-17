@@ -17,7 +17,7 @@ class MySurveyPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userId: localStorage.getItem("userId") || "USER2636335",
+            userId: localStorage.getItem("userId"),
         };
     }
 
@@ -41,23 +41,25 @@ class MySurveyPage extends React.Component {
             { Header: "", accessor: "action", id: "action", value: 48, desc: false },
         ]
         const { userId } = this.state
-        columns = [...columns, { Header: "Approved", accessor: "status", id: "status", value: 128, desc: false }] 
-        const data = records.length && records?.map((b, i) => {
+        console.log(records)
+        console.log(userId)
+        columns = [...columns, { Header: "Approved", accessor: "status", id: "status", value: 128, desc: false }]
+        const data = records.length && records?.filter(r => r.userId == userId).map((b, i) => {
             b.checked = <Checkbox disabled={false}></Checkbox>
-            b.preview = <img src={b.previewUrl + 320} className={classes.previewImg} />
+            b.preview = <img src={b.photoUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/submit?assetId=" + b.assetId}><EditIcon /></a>
-            b.status = i % 2 ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />
+            b.status = b.status == 1 ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />
             return b
         }) || []
         return (
             <div className={classes.container}>
-                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be withdrawed") }}>
+                <Button className={classes.button} style={{ marginBottom: "2%" }} onClick={() => { alert("All your selections will be withdrawed") }}>
                     <Chip label="Withdraw" color="primary" />
                 </Button>
-                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be submitted") }}>
+                <Button className={classes.button} style={{ marginBottom: "2%" }} onClick={() => { alert("All your selections will be submitted") }}>
                     <Chip label="Submit" color="primary" />
                 </Button>
-                <Button className={classes.button} style={{marginBottom: "2%"}} onClick={() => { alert("All your selections will be deleted") }}>
+                <Button className={classes.button} style={{ marginBottom: "2%" }} onClick={() => { alert("All your selections will be deleted") }}>
                     <Chip label="Delete" color="primary" />
                 </Button>
                 <Grid container>

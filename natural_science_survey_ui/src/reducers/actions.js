@@ -111,6 +111,7 @@ export const postUserLogin = (email, password) => {
                 localStorage.setItem('userDisplayName', data.name);
                 localStorage.setItem('userType', data.userType);
                 localStorage.setItem('email', data.email);
+                localStorage.setItem('userId', data.userId);
                 window.location = "/survey/search"
                 dispatch({ type: types.API_RETRIEVED, key: 'login', payload: data })
             }).catch((error) => {

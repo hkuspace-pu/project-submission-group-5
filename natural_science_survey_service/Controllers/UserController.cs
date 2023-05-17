@@ -58,7 +58,7 @@ public class UserController : ControllerBase
             signingCredentials: creds);
 
         // Return the JWT token as the result
-        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), userType = profile.UserType, email = profile.Email, name = profile.Name });
+        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), userType = profile.UserType, email = profile.Email, name = profile.Name, userId = profile.UserID });
     }
 
     // GET all action
