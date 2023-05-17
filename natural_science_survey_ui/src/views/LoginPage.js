@@ -30,6 +30,7 @@ class LoginPage extends React.Component {
         localStorage.removeItem('userDisplayName');
         localStorage.removeItem('userType');
         localStorage.removeItem('email');
+        localStorage.removeItem('userId');
     }
     render() {
         const { classes } = this.props
