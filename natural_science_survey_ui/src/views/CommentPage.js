@@ -16,9 +16,10 @@ import FormControl from '@mui/material/FormControl';
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import Rating from '@mui/material/Rating';
 import { macaulayLibraryData } from "variables/template";
 import Button from "@material-ui/core/Button";
-import { fetchCommentByRecordId, postCommentCreate } from "reducers/actions";
+import { fetchCommentByRecordId, postCommentCreate, fetchUsers } from "reducers/actions";
 
 class CommentPage extends React.Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class CommentPage extends React.Component {
                 userID: 3,
                 recordID: parseInt(new URLSearchParams(window.location.search).get("id")),
                 content: "",
-                rating: 5,
+                rating: 0,
                 updatedAt: "2023-05-12T07:45:14.806Z",
                 createdAt: "2023-05-12T07:45:14.806Z",
             }
@@ -40,6 +41,7 @@ class CommentPage extends React.Component {
     componentDidMount() {
         let id = new URLSearchParams(window.location.search).get("id")
         this.props.fetchCommentByRecordId(id)
+        this.props.fetchUsers()
     }
 
     componentDidUpdate(prevProps) {
@@ -49,7 +51,7 @@ class CommentPage extends React.Component {
     }
 
     render() {
-        const { comments } = this.props
+        const { comments, users } = this.props
         const { userComment } = this.state
         const getRating = (rating) => {
             var c = []
@@ -63,6 +65,8 @@ class CommentPage extends React.Component {
                 {c}
             </div>
         }
+        console.log(users)
+        console.log(comments)
         return <Grid container>
             <Typography variant="h5">
                 {comments.length} Comments
@@ -71,7 +75,7 @@ class CommentPage extends React.Component {
                 {
                     comments.map((comment) => {
                         return <List>
-                            <ListItem>{getRating(comment.rating)} &nbsp; {comment.userDisplayName}</ListItem>
+                            <ListItem>{users[comment.userID]?.name}&nbsp;<Rating name="read-only" value={comment.rating} readOnly /></ListItem>
                             <ListItem>{comment.obsDttm}</ListItem>
                             <ListItem>{comment.content}</ListItem>
                             <Divider />
@@ -84,7 +88,13 @@ class CommentPage extends React.Component {
                     <InputLabel style={{ marginBottom: "2%" }}>
                         Comment this survey
                     </InputLabel>
-                    <div>{Array(5).fill(0).map((_, i) => <StarIcon />)}</div>
+                    <Rating
+                        name="simple-controlled"
+                        value={userComment.rating}
+                        onChange={(event, newValue) => {
+                            userComment.rating = newValue; this.setState({ userComment }) 
+                        }}
+                    />
                     <Input
                         value={userComment.content}
                         onChange={(event) => { userComment.content = event.target.value; this.setState({ userComment }) }}
@@ -99,13 +109,15 @@ class CommentPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         comment: state.common.comment,
-        comments: state.common.comments?.length && state.common.comments || []
+        comments: state.common.comments?.length && state.common.comments || [],
+        users: state.common.users?.length && state.common.users?.reduce((a, u) => { a[u.userID] = u; return a }, {}) || {}
     }
 }
 
 const mapDispatchToProps = {
     fetchCommentByRecordId,
-    postCommentCreate
+    postCommentCreate,
+    fetchUsers,
 }
 
 

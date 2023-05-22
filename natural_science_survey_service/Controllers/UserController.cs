@@ -66,7 +66,14 @@ public class UserController : ControllerBase
     public async Task<ActionResult<IEnumerable<User>>> GetAll()
     {
         return await _context.Users
-            .Select(x => x)
+            .Select(x => new User
+            {
+                UserID = x.UserID,
+                Name = x.Name,
+                PhotoUrl = x.PhotoUrl,
+                Email = x.Email,
+                UserType = x.UserType
+            })
             .ToListAsync();
     }
 
