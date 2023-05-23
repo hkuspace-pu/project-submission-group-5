@@ -37,6 +37,7 @@ public class UserController : ControllerBase
             new Claim("email", profile.Email),
             new Claim("userType", profile.UserType),
             new Claim("name", profile.Name),
+            new Claim("userId", profile.UserID.ToString()),
         };
 
         // Create a security key

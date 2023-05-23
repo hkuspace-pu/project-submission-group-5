@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import SearchPageStyle from "./SearchPageStyle"
-import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead, fetchRecords } from "reducers/actions"
+import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead, fetchRecords, fetchSpecies } from "reducers/actions"
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import "./ReactTable.scss"
@@ -28,23 +28,22 @@ class MySurveyPage extends React.Component {
             // this.props.fetchMacaulayLibraryHead()
         }
         this.props.fetchRecords()
+        this.props.fetchSpecies()
     }
 
     render() {
-        const { classes, macaulayLibraryHead, macaulayLibraryData, records } = this.props
+        const { classes, macaulayLibraryHead, macaulayLibraryData, records, species } = this.props
         var columns = [
             { Header: "", accessor: "preview", id: "preview", value: 128, desc: false },
-            { Header: "Name", accessor: "speciesID", id: "speciesID", value: 192, desc: true },
+            { Header: "Name", accessor: "species", id: "species", value: 192, desc: true },
             { Header: "Date", accessor: "dateObserved", id: "dateObserved", value: 128, desc: true },
-            { Header: "Observer", accessor: "userID", id: "userID", value: 128, desc: true },
             { Header: "Location", accessor: "location", id: "location", value: 320, desc: true },
             { Header: "", accessor: "action", id: "action", value: 48, desc: false },
         ]
         const { userId } = this.state
-        console.log(records)
-        console.log(userId)
         columns = [...columns, { Header: "Approved", accessor: "status", id: "status", value: 128, desc: false }]
-        const data = records.length && records?.filter(r => r.userId == userId).map((b, i) => {
+        const data = records.length && records?.filter(r => r.userID == userId).map((b, i) => {
+            b.species = species[b.speciesID]?.commonName
             b.checked = <Checkbox disabled={false}></Checkbox>
             b.preview = <img src={b.photoUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/submit?assetId=" + b.assetId}><EditIcon /></a>
@@ -85,7 +84,8 @@ const mapStateToProps = (state) => {
     return {
         // macaulayLibraryHead: state.common.macaulayLibraryHead,
         // macaulayLibraryData: state.common.macaulayLibraryData,
-        records: state.common.records || []
+        records: state.common.records || [],
+        species: state.common.species?.length && state.common.species.reduce((o, s) => { o[s.speciesID] = s; return o }, {}) || []
     }
 }
 
@@ -93,6 +93,7 @@ const mapDispatchToProps = {
     // fetchMacaulayLibraryData,
     // fetchMacaulayLibraryHead,
     fetchRecords,
+    fetchSpecies,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(SearchPageStyle)(MySurveyPage));

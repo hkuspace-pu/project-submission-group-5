@@ -17,7 +17,7 @@ import Input from "@material-ui/core/Input";
 import Checkbox from '@mui/material/Checkbox';
 import SearchPageStyle from "./SearchPageStyle"
 import Map from "../components/Map"
-import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead, fetchRecords } from "reducers/actions"
+import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead, fetchRecords, fetchSpecies, fetchUsers } from "reducers/actions"
 import { EXPERT_SURVEYOR } from "variables/common"
 import "./ReactTable.scss"
 import { Button } from "@material-ui/core";
@@ -68,6 +68,8 @@ class SearchPage extends React.Component {
             // this.props.fetchMacaulayLibraryHead()
         }
         this.props.fetchRecords()
+        this.props.fetchSpecies()
+        this.props.fetchUsers()
     }
 
     handleChange = (event, newValue) => {
@@ -75,13 +77,13 @@ class SearchPage extends React.Component {
     };
 
     render() {
-        const { classes, macaulayLibraryHead, macaulayLibraryData, records } = this.props
+        const { classes, macaulayLibraryHead, macaulayLibraryData, records, species, users } = this.props
         const { tabValue } = this.state
         var columns = [
             { Header: "", accessor: "preview", id: "preview", value: 128, desc: false },
-            { Header: "Name", accessor: "speciesID", id: "speciesID", value: 192, desc: true },
+            { Header: "Name", accessor: "species", id: "species", value: 192, desc: true },
             { Header: "Date", accessor: "dateObserved", id: "dateObserved", value: 128, desc: true },
-            { Header: "Observer", accessor: "userID", id: "userID", value: 128, desc: true },
+            { Header: "Observer", accessor: "user", id: "user", value: 128, desc: true },
             { Header: "Location", accessor: "location", id: "location", value: 320, desc: true },
             { Header: "", accessor: "action", id: "action", value: 48, desc: false },
         ]
@@ -90,6 +92,8 @@ class SearchPage extends React.Component {
         }
 
         const data = records.length && records?.map((b, i) => {
+            b.user = users[b.userID]?.name
+            b.species = species[b.speciesID]?.commonName
             b.checked = <Checkbox disabled={false}></Checkbox>
             b.preview = <img src={b.photoUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/item?id=" + b.recordID}><FindInPageIcon /></a>
@@ -225,7 +229,9 @@ const mapStateToProps = (state) => {
     return {
         // macaulayLibraryHead: state.common.macaulayLibraryHead,
         // macaulayLibraryData: state.common.macaulayLibraryData,
-        records: state.common.records || []
+        records: state.common.records || [],
+        species: state.common.species?.length && state.common.species.reduce((o, s) => { o[s.speciesID] = s; return o }, {}) || {},
+        users: state.common.users?.length && state.common.users.reduce((o, s) => { o[s.userID] = s; return o }, {}) || {},
     }
 }
 
@@ -233,6 +239,8 @@ const mapDispatchToProps = {
     // fetchMacaulayLibraryData,
     // fetchMacaulayLibraryHead,
     fetchRecords,
+    fetchSpecies,
+    fetchUsers,
 }
 
 

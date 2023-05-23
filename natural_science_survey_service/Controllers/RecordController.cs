@@ -1,6 +1,7 @@
 using NSSService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NSSService.Controllers;
 
@@ -40,8 +41,10 @@ public class RecordController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Record record)
     {
+        var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userId")?.Value);
         var id = await _context.Records.CountAsync();
         record.RecordID = id + 1;
+        record.UserID = userId;
         _context.Records.Add(record);
         await _context.SaveChangesAsync();
         return Ok(new { record });
