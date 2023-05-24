@@ -21,6 +21,7 @@ import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead, fetchRecords, fetch
 import { EXPERT_SURVEYOR } from "variables/common"
 import "./ReactTable.scss"
 import { Button } from "@material-ui/core";
+import ActionBar from "components/ActionBar"
 
 function a11yProps(index) {
     return {
@@ -113,9 +114,10 @@ class SearchPage extends React.Component {
                             </Tabs>
                         </Box>
                         <TabPanel value={tabValue} index={0}>
-                            <Button className={classes.button} onClick={() => { alert("All your selections will be exported as xlsx files") }}>
+                            {/* <Button className={classes.button} onClick={() => { alert("All your selections will be exported as xlsx files") }}>
                                 <Chip label="Export" color="primary" />
-                            </Button>
+                            </Button> */}
+                            <ActionBar data={records} />
                             {
                                 localStorage.getItem("userType") == EXPERT_SURVEYOR &&
                                 <Button className={classes.button} onClick={() => { alert("Record will be created based on your xlsx file") }}>
@@ -195,7 +197,7 @@ class SearchPage extends React.Component {
                                         className={classes.imageWrapper}
                                         style={{
                                             width: "33%",
-                                            backgroundImage: `url(${d.previewUrl + 320})`,
+                                            backgroundImage: `url(${d.photoUrl + 320})`,
                                             backgroundSize: "cover",
                                             backgroundRepeat: "no-repeat",
 
