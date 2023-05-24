@@ -139,9 +139,9 @@ class SearchPage extends React.Component {
                             />
                         </TabPanel>
                         <TabPanel value={tabValue} index={1}>
-                            <Grid container style={{ width: '1000px', height: '1000px' }}>
-                                <Box sx={{ width: '80%', height: '80%' }}><Map /></Box>
-                                <Box sx={{ width: '20%', height: '20%' }}>
+                            <Grid container style={{ width: '100%', height: window.innerHeight }}>
+                                <Box sx={{ width: '75%', height: '80%' }}><Map /></Box>
+                                <Box sx={{ width: '24%', height: '30%', marginLeft: "1%" }}>
                                 <Paper >
                                     <Typography
                                         component="h3"
@@ -194,7 +194,21 @@ class SearchPage extends React.Component {
                                 }
                             </Paper>
                             <div className={classes.images}>
-                                {data.map((d, i) => {
+                                {data.filter((d)=>{
+                                    if (this.state.species && d.species?.toLowerCase().indexOf(this.state.species?.toLowerCase()) === -1) {
+                                        return false
+                                    }
+                                    if (this.state.dateObserved && d.dateObserved?.toLowerCase().indexOf(this.state.dateObserved?.toLowerCase()) === -1) {
+                                        return false
+                                    }
+                                    if (this.state.user && d.user?.toLowerCase().indexOf(this.state.user?.toLowerCase()) === -1) {
+                                        return false
+                                    }
+                                    if (this.state.location && d.location?.toLowerCase().indexOf(this.state.location?.toLowerCase()) === -1) {
+                                        return false
+                                    }
+                                    return true
+                                }).map((d, i) => {
                                     return <ButtonBase
                                         key={d.commonName}
                                         className={classes.imageWrapper}
