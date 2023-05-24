@@ -19,11 +19,13 @@ import ListItemText from '@mui/material/ListItemText';
 import Button from "@material-ui/core/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { NavLink } from "react-router-dom";
-import { macaulayLibraryData, macaulayLibraryHead, } from "variables/template"
+import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
 import { SURVEYOR } from "variables/common"
 import { toTitleCase } from "utils/utils"
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import CardImageUpload from "components/CardImageUpload";
-import { postRecordCreate } from "reducers/actions";
+import { postRecordCreate, fetchSpecies } from "reducers/actions";
 
 class CreatePage extends React.Component {
     constructor(props) {
@@ -35,7 +37,7 @@ class CreatePage extends React.Component {
                 "speciesID": 1,
                 "longitude": 0,
                 "latitude": 0,
-                "dateObserved": "",
+                "dateObserved": new Date().toISOString(),
                 "age": 0,
                 "sex": 0,
                 "location": "",
@@ -55,9 +57,10 @@ class CreatePage extends React.Component {
         // } else {
         //     window.location = "/survey/search"
         // }
+        this.props.fetchSpecies()
     }
     render() {
-        const { classes, createItem } = this.props
+        const { classes, createItem, species } = this.props
         const { data } = this.state
         const convert = (d) => {
             if (d.length && d.length > 0) {
@@ -69,8 +72,43 @@ class CreatePage extends React.Component {
             }
             return <List>
                 {Object.keys(d).map((k) => {
-                    if (k == "photoUrl") {
+                    if (["photoUrl", "recordID", "userID", "status", "reviewerID"].indexOf(k) !== -1) {
                         return null
+                    }
+                    if (k == "speciesID") {
+                        return <ListItem>
+                            <Grid container>
+                                <Grid item xs={2}>
+                                    <ListItemText>
+                                        <Typography variant="h7" align="left" >
+                                            {toTitleCase(k)}
+                                        </Typography>
+                                    </ListItemText>
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <FormControl >
+                                        <Select
+                                            MenuProps={{
+                                                PaperProps: {
+                                                    style: {
+                                                        maxHeight: 224,
+                                                        width: 250,
+                                                    },
+                                                }
+                                            }}
+                                            sx={{ width: 300 }}
+                                            value={species[d[k]]}
+                                            onChange={(event) => { d[k] = event.target.value; this.setState({}) }}
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            {Object.keys(species).map((s) => <MenuItem value={species[s].speciesID}>{species[s].commonName}</MenuItem>)}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                        </ListItem>
                     }
                     return (
                         <ListItem>
@@ -125,7 +163,7 @@ class CreatePage extends React.Component {
                                 event => {
                                     console.log(event)
                                     data.photoUrl = URL.createObjectURL(event.target.files[0])
-                                    this.setState({...data})
+                                    this.setState({ ...data })
                                 }
                             }
                             title={"photo"}
@@ -147,9 +185,11 @@ class CreatePage extends React.Component {
                             </Button>
                         </div>
                         :
-                        <Button onClick={() => { console.log(data); 
+                        <Button onClick={() => {
+                            console.log(data);
                             this.props.postRecordCreate(data)
-                            localStorage.getItem("userType") == SURVEYOR ? alert("Your survey record has been successfully created. Will wait for moderator approval.") : alert("Survey record created successfully.") }} className={classes.button}>
+                            localStorage.getItem("userType") == SURVEYOR ? alert("Your survey record has been successfully created. Will wait for moderator approval.") : alert("Survey record created successfully.")
+                        }} className={classes.button}>
                             <NavLink to={"/survey/search"} >
                                 Submit
                             </NavLink>
@@ -162,12 +202,14 @@ class CreatePage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.common.record
+        data: state.common.record,
+        species: state.common.species?.length && state.common.species.reduce((o, s) => { o[s.speciesID] = s; return o }, {}) || {},
     }
 }
 
 const mapDispatchToProps = {
     postRecordCreate,
+    fetchSpecies,
 }
 
 
