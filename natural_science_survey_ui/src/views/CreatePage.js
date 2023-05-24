@@ -44,7 +44,7 @@ class CreatePage extends React.Component {
                 "photoUrl": "",
                 "width": 0,
                 "height": 0,
-                "status": 1,
+                "status": localStorage.getItem('userType') == 'expert' ? 1 : 0,
                 "reviewerID": 3
             },
         };

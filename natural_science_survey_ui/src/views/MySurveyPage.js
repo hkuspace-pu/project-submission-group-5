@@ -41,13 +41,13 @@ class MySurveyPage extends React.Component {
             { Header: "", accessor: "action", id: "action", value: 48, desc: false },
         ]
         const { userId } = this.state
-        columns = [...columns, { Header: "Approved", accessor: "status", id: "status", value: 128, desc: false }]
+        columns = [...columns, { Header: "Approved", accessor: "checked", id: "checked", value: 128, desc: false }]
         const data = records.length && records?.filter(r => r.userID == userId).map((b, i) => {
             b.species = species[b.speciesID]?.commonName
             b.checked = <Checkbox disabled={false}></Checkbox>
             b.preview = <img src={b.photoUrl + 320} className={classes.previewImg} />
             b.action = <a href={"/survey/submit?assetId=" + b.assetId}><EditIcon /></a>
-            b.status = b.status == 1 ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />
+            b.checked = b.status == 1 ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />
             return b
         }) || []
         return (
