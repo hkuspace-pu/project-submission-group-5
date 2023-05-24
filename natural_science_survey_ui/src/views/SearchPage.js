@@ -22,6 +22,7 @@ import { EXPERT_SURVEYOR } from "variables/common"
 import "./ReactTable.scss"
 import { Button } from "@material-ui/core";
 import ActionBar from "components/ActionBar"
+import Paper from '@mui/material/Paper';
 
 function a11yProps(index) {
     return {
@@ -141,6 +142,7 @@ class SearchPage extends React.Component {
                             <Grid container style={{ width: '1000px', height: '1000px' }}>
                                 <Box sx={{ width: '80%', height: '80%' }}><Map /></Box>
                                 <Box sx={{ width: '20%', height: '20%' }}>
+                                <Paper >
                                     <Typography
                                         component="h3"
                                         variant="h6"
@@ -168,28 +170,29 @@ class SearchPage extends React.Component {
                                     <Button className={classes.button} style={{ marginTop: "10%", marginLeft: "20%" }} onClick={() => { alert("Maps will be displayed based on your search information.") }}>
                                         <Chip label="Search" color="primary" />
                                     </Button>
+                                    </Paper>
                                 </Box>
                             </Grid>
                         </TabPanel>
                         <TabPanel value={tabValue} index={2}>
-                            <div >
-                            {
-                                columns.map((c) => {
-                                    if (!c.Header) {
-                                        return null
-                                    }
-                                    return <FormControl style={{ marginLeft: "2%", width: "15%" }}>
-                                        <InputLabel>
-                                            {c.Header}
-                                        </InputLabel>
-                                        <Input
-                                            value={this.state[c.id]}
-                                            onChange={(event) => { this.setState({ [c.id]: event.target.value }) }}
-                                        />
-                                    </FormControl>
-                                })
-                            }
-                            </div>
+                            <Paper >
+                                {
+                                    columns.map((c) => {
+                                        if (!c.Header) {
+                                            return null
+                                        }
+                                        return <FormControl style={{ marginLeft: "2%", width: "15%", marginBottom: "2%" }}>
+                                            <InputLabel>
+                                                {c.Header}
+                                            </InputLabel>
+                                            <Input
+                                                value={this.state[c.id]}
+                                                onChange={(event) => { this.setState({ [c.id]: event.target.value }) }}
+                                            />
+                                        </FormControl>
+                                    })
+                                }
+                            </Paper>
                             <div className={classes.images}>
                                 {data.map((d, i) => {
                                     return <ButtonBase
@@ -212,7 +215,7 @@ class SearchPage extends React.Component {
                                                 color="inherit"
                                                 className={classes.imageTitle}
                                             >
-                                                {d.commonName}
+                                                {d.species}
                                                 <div className={classes.imageMarked} />
                                             </Typography>
                                         </div>
