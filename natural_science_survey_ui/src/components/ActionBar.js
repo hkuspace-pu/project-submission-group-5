@@ -1,6 +1,6 @@
 import React from 'react';
 import { saveAs } from 'file-saver';
-import { Button } from "@material-ui/core";
+import { Button, Chip } from "@material-ui/core";
 
 class ActionBar extends React.Component {
 
@@ -13,7 +13,7 @@ class ActionBar extends React.Component {
 
     render() {
         return (
-            <Button onClick={this.exportToCSV}>Export</Button>
+            <Button onClick={this.exportToCSV}><Chip label="Export" color="primary" /></Button>
         );
     }
 }

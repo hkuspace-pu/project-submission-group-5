@@ -12,6 +12,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Button from "@material-ui/core/Button";
+import ButtonBase from "@material-ui/core/ButtonBase";
 import withStyles from "@material-ui/core/styles/withStyles";
 import SidebarStyle from "./SidebarStyle";
 import logo from 'assets/logo.svg';
@@ -44,9 +45,11 @@ function Sidebar(props) {
                     backgroundImage: "url(" + backgroundImage + ")"
                 }} className={classes.appBar}>
                 <Toolbar>
-                    <Typography variant="h6" noWrap component="div">
-                        <img src={logo} alt="logo" className={classes.logo} />
+                    <Typography variant="h6" noWrap component="div" >
+                        <ButtonBase href="/home" >
+                        <img src={logo} alt="logo" className={classes.logo}/>
                         {COMPANY_NAME}
+                        </ButtonBase>
                     </Typography>
                     {
                         displayName ?

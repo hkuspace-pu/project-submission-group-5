@@ -13,4 +13,3 @@ related multimedia information (e.g., photos, videos, audio recordings).
 This project is about developing a cross-platform system to:
 * help surveyors keep records in a convenient and reliable way; and
 * inspire a love to nature to the general public.
-
