@@ -19,14 +19,15 @@ import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
 import { toTitleCase } from "utils/utils"
 
+import { postUserUpdate } from "reducers/actions";
+
 class ProfilePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             data: {
-                userId: localStorage.getItem("userId"),
                 userDisplayName: localStorage.getItem("userDisplayName"),
-                userType: localStorage.getItem("userType"),
+                password: "",
             }
         };
     }
@@ -81,10 +82,10 @@ class ProfilePage extends React.Component {
                         {convert(data)}
                     </List>
                 </Grid>
-                <Button onClick={() => { console.log(this.state) }} className={classes.button}>
-                    <NavLink to={"/survey/profile"} >
+                <Button onClick={() => { this.props.postUserUpdate(this.state.data.userDisplayName, this.state.data.password) }} className={classes.button}>
+                    {/* <NavLink to={"/survey/profile"} > */}
                         Save Change
-                    </NavLink>
+                    {/* </NavLink> */}
                 </Button>
             </div>
         )
@@ -96,6 +97,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
+    postUserUpdate,
 }
 
 

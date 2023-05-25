@@ -12,6 +12,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Button from "@material-ui/core/Button";
+import ButtonBase from "@material-ui/core/ButtonBase";
 import withStyles from "@material-ui/core/styles/withStyles";
 import SidebarStyle from "./SidebarStyle";
 import logo from 'assets/logo.svg';
@@ -33,6 +34,7 @@ function Sidebar(props) {
     const group2Title = group2.map((page) => page.name)
     const group2Path = group2.map((page) => page.path)
     const group2Icon = group2.map((page) => page.icon)
+    const displayName = localStorage.getItem("userDisplayName")
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -43,23 +45,32 @@ function Sidebar(props) {
                     backgroundImage: "url(" + backgroundImage + ")"
                 }} className={classes.appBar}>
                 <Toolbar>
-                    <Typography variant="h6" noWrap component="div">
-                        <img src={logo} alt="logo" className={classes.logo} />
+                    <Typography variant="h6" noWrap component="div" >
+                        <ButtonBase href="/home" >
+                        <img src={logo} alt="logo" className={classes.logo}/>
                         {COMPANY_NAME}
+                        </ButtonBase>
                     </Typography>
-                    <div className={classes.button}>
-                        <Typography variant="h8" style={{ marginRight: "10px" }}>
-                            {"Hi " + userType + " " + localStorage.getItem("userDisplayName")}
-                        </Typography>
-                        {userType != GUEST &&
-                            <Button onClick={() => { alert("Check your chat messages here!") }} style={{ color: "#ffffffde" }}>
-                                <EmailIcon />
-                            </Button>
-                        }
-                        <Button href="/login" style={{ color: "#ffffffde" }}>
-                            Sign out
-                        </Button>
-                    </div>
+                    {
+                        displayName ?
+                            <div className={classes.button}>
+                                <Typography variant="h8" style={{ marginRight: "10px" }}>
+                                    {"Hi " + displayName}
+                                </Typography>
+                                <Button onClick={() => { alert("Check your chat messages here!") }} style={{ color: "#ffffffde" }}>
+                                    <EmailIcon />
+                                </Button>
+                                <Button href="/login" style={{ color: "#ffffffde" }}>
+                                    Sign out
+                                </Button>
+                            </div>
+                            :
+                            <div className={classes.button}>
+                                <Button href="/login" style={{ color: "#ffffffde" }}>
+                                    Sign in
+                                </Button>
+                            </div>
+                    }
                 </Toolbar>
             </AppBar>
             <Drawer

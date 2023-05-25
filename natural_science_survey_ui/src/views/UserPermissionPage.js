@@ -17,9 +17,11 @@ import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import ListItemText from '@mui/material/ListItemText';
 import Button from "@material-ui/core/Button";
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import { NavLink } from "react-router-dom";
 import { toTitleCase } from "utils/utils"
-import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead } from "reducers/actions"
+import { fetchMacaulayLibraryData, fetchMacaulayLibraryHead, fetchUsers } from "reducers/actions"
 import { COMPANY_NAME, ADMINISTRATOR, EXPERT_SURVEYOR, MODERATOR, SURVEYOR, GUEST } from "variables/common"
 
 class UserPermissionPage extends React.Component {
@@ -35,11 +37,12 @@ class UserPermissionPage extends React.Component {
         if (!macaulayLibraryHead || !macaulayLibraryData) {
             this.props.fetchMacaulayLibraryData()
             this.props.fetchMacaulayLibraryHead()
+            this.props.fetchUsers()
         }
     }
 
     render() {
-        const { classes, macaulayLibraryData } = this.props
+        const { classes, macaulayLibraryData, users } = this.props
         const { search } = this.state
         const getUserType = (i) => {
             switch (i) {
@@ -53,7 +56,9 @@ class UserPermissionPage extends React.Component {
                     return SURVEYOR
             }
         }
-        const data = macaulayLibraryData?.results?.content.filter((c) => (c.userId + c.userDisplayName).indexOf(search) > -1).reduce((o, c, i) => { o["(" + c.userId + ") " + c.userDisplayName] = getUserType(i % 4); return o }, {}) || []
+        // const data = macaulayLibraryData?.results?.content.filter((c) => (c.userId + c.userDisplayName).indexOf(search) > -1).reduce((o, c, i) => { o["(" + c.userId + ") " + c.userDisplayName] = getUserType(i % 4); return o }, {}) || []
+        const data = users?.length && users.filter(u => (!search || u.name.indexOf(search) != -1)).reduce((o, u) => { o[u.name] = u.userType; return o }, {}) || {}
+        console.log(data)
         const convert = (d) => {
             if (d.length && d.length > 0) {
                 return <List>
@@ -74,22 +79,40 @@ class UserPermissionPage extends React.Component {
                                         </Typography>
                                     </ListItemText>
                                 </Grid>
-                                <Grid item xs={typeof d[k] === "boolean" ? 2 : 8}>
+                                <Grid item xs={typeof d[k] === "boolean" ? 2 : 4}>
                                     {d[k] && typeof d[k] === "object" ?
                                         convert(d[k]) :
                                         (typeof d[k] === "boolean" ?
                                             <Checkbox disabled checked={d[k]} />
                                             :
                                             <FormControl style={{ width: "100%" }}>
-                                                <InputLabel>
-                                                    {toTitleCase(k)}
-                                                </InputLabel>
-                                                <Input
-                                                    value={d[k]}
-                                                    onChange={(event) => { d[k] = event.target.value; this.setState({}) }}
-                                                />
+                                                    <Select
+                                                        MenuProps={{
+                                                            PaperProps: {
+                                                                style: {
+                                                                    maxHeight: 224,
+                                                                    width: 250,
+                                                                },
+                                                            }
+                                                        }}
+                                                        sx={{ width: 300 }}
+                                                        value={d[k]}
+                                                        onChange={(event) => { d[k] = event.target.value; this.setState({}) }}
+                                                    >
+                                                        <MenuItem value="">
+                                                            <em>None</em>
+                                                        </MenuItem>
+                                                        <MenuItem value={ADMINISTRATOR}>{ADMINISTRATOR}</MenuItem>
+                                                        <MenuItem value={EXPERT_SURVEYOR}>{EXPERT_SURVEYOR}</MenuItem>
+                                                        <MenuItem value={MODERATOR}>{MODERATOR}</MenuItem>
+                                                        <MenuItem value={SURVEYOR}>{SURVEYOR}</MenuItem>
+                                                    </Select>
                                             </FormControl>)
                                     }
+                                </Grid>
+                                <Grid item xs={typeof d[k] === "boolean" ? 2 : 4}>
+
+                                    <Button>Remove User</Button>
                                 </Grid>
                             </Grid>
                         </ListItem>
@@ -127,12 +150,14 @@ const mapStateToProps = (state) => {
     return {
         macaulayLibraryHead: state.common.macaulayLibraryHead,
         macaulayLibraryData: state.common.macaulayLibraryData,
+        users: state.common.users || {}
     }
 }
 
 const mapDispatchToProps = {
     fetchMacaulayLibraryData,
-    fetchMacaulayLibraryHead
+    fetchMacaulayLibraryHead,
+    fetchUsers,
 }
 
 

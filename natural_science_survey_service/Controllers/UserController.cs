@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace NSSService.Controllers;
@@ -27,16 +23,21 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login([FromBody] User user)
+    public async Task<IActionResult> Login([FromBody] UserLogin user)
     {
+        var profile = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.Password);
+        if (profile == null)
+        {
+            return NotFound();
+        }
         // Create a claims list for the JWT
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim("Id", user.Id.ToString()),
-            new Claim("UserType", user.UserType),
-            new Claim("Email", user.Email),
-            new Claim("Password", user.Password),
+            new Claim(JwtRegisteredClaimNames.Sub, profile.Email),
+            new Claim("email", profile.Email),
+            new Claim("userType", profile.UserType),
+            new Claim("name", profile.Name),
+            new Claim("userId", profile.UserID.ToString()),
         };
 
         // Create a security key
@@ -58,7 +59,57 @@ public class UserController : ControllerBase
             signingCredentials: creds);
 
         // Return the JWT token as the result
-        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), userType = profile.UserType, email = profile.Email, name = profile.Name, userId = profile.UserID });
     }
 
+    // GET all action
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<User>>> GetAll()
+    {
+        return await _context.Users
+            .Select(x => new User
+            {
+                UserID = x.UserID,
+                Name = x.Name,
+                PhotoUrl = x.PhotoUrl,
+                Email = x.Email,
+                UserType = x.UserType
+            })
+            .ToListAsync();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] User user)
+    {
+        var id = await _context.Users.CountAsync();
+        var newUser = new User
+        {
+            UserID = id + 1,
+            Email = user.Email,
+            Password = user.Password,
+            Name = user.Name,
+            PhotoUrl = user.PhotoUrl,
+            UserType = "user"
+        };
+        _context.Users.Add(newUser);
+        await _context.SaveChangesAsync();
+        return Ok(new { newUser });
+    }
+
+    [HttpPost]
+    [Route("update")]
+    public async Task<IActionResult> Update([FromBody] User user)
+    {
+        var oldUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+
+        if (oldUser == null)
+        {
+            return NotFound();
+        }
+
+        oldUser.Name = user.Name;
+        oldUser.Password = user.Password;
+        await _context.SaveChangesAsync();
+        return Ok(new { oldUser });
+    }
 }

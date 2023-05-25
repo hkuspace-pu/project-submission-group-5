@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Data.SqlClient;
-
 namespace NSSService.Models;
 
 public class NSSServiceContext : DbContext
@@ -11,4 +9,8 @@ public class NSSServiceContext : DbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<News> News { get; set; } = null!;
+    public DbSet<Record> Records { get; set; } = null!;
+    public DbSet<Species> Species { get; set; } = null!;
+    public DbSet<Comment> Comment { get; set; } = null!;
 }

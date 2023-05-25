@@ -22,25 +22,45 @@ import { NavLink } from "react-router-dom";
 import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
 import { SURVEYOR } from "variables/common"
 import { toTitleCase } from "utils/utils"
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import CardImageUpload from "components/CardImageUpload";
+import { postRecordCreate, fetchSpecies } from "reducers/actions";
 
 class CreatePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {}
+            data: {
+                "recordID": 1,
+                "userID": 1,
+                "speciesID": 1,
+                "longitude": 0,
+                "latitude": 0,
+                "dateObserved": new Date().toISOString(),
+                "age": 0,
+                "sex": 0,
+                "location": "",
+                "photoUrl": "",
+                "width": 0,
+                "height": 0,
+                "status": localStorage.getItem('userType') == 'expert' ? 1 : 0,
+                "reviewerID": 3
+            },
         };
     }
     componentDidMount() {
-        let assetId = new URLSearchParams(window.location.search).get("assetId") || 0
-        let data = macaulayLibraryData.results?.content.filter(c => c.assetId == assetId)?.[0] || macaulayLibraryData.results?.content[0]
-        if (data) {
-            this.setState({ data })
-        } else {
-            window.location = "/survey/search"
-        }
+        // let assetId = new URLSearchParams(window.location.search).get("assetId") || 0
+        // let data = macaulayLibraryData.results?.content.filter(c => c.assetId == assetId)?.[0] || macaulayLibraryData.results?.content[0]
+        // if (data) {
+        //     this.setState({ data })
+        // } else {
+        //     window.location = "/survey/search"
+        // }
+        this.props.fetchSpecies()
     }
     render() {
-        const { classes, createItem } = this.props
+        const { classes, createItem, species } = this.props
         const { data } = this.state
         const convert = (d) => {
             if (d.length && d.length > 0) {
@@ -52,6 +72,44 @@ class CreatePage extends React.Component {
             }
             return <List>
                 {Object.keys(d).map((k) => {
+                    if (["photoUrl", "recordID", "userID", "status", "reviewerID"].indexOf(k) !== -1) {
+                        return null
+                    }
+                    if (k == "speciesID") {
+                        return <ListItem>
+                            <Grid container>
+                                <Grid item xs={2}>
+                                    <ListItemText>
+                                        <Typography variant="h7" align="left" >
+                                            {toTitleCase(k)}
+                                        </Typography>
+                                    </ListItemText>
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <FormControl >
+                                        <Select
+                                            MenuProps={{
+                                                PaperProps: {
+                                                    style: {
+                                                        maxHeight: 224,
+                                                        width: 250,
+                                                    },
+                                                }
+                                            }}
+                                            sx={{ width: 300 }}
+                                            value={species[d[k]]}
+                                            onChange={(event) => { d[k] = event.target.value; this.setState({}) }}
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            {Object.keys(species).map((s) => <MenuItem value={species[s].speciesID}>{species[s].commonName}</MenuItem>)}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                        </ListItem>
+                    }
                     return (
                         <ListItem>
                             <Grid container>
@@ -82,6 +140,7 @@ class CreatePage extends React.Component {
                 })}
             </List>
         }
+
         return (
             <div className={classes.container}>
                 <Grid container >
@@ -95,10 +154,22 @@ class CreatePage extends React.Component {
                         <Typography variant="subtitle1" noWrap component="div">
                             {data.location}
                         </Typography>
-                        <img src={data.previewUrl} />
-                        <Button onClick={() => { }} className={classes.button}>
-                            Upload Attachment
-                        </Button>
+                        <CardImageUpload
+                            fullWidth
+                            id="photo"
+                            name="photo"
+                            imgSrc={data.photoUrl}
+                            imgHandler={
+                                event => {
+                                    console.log(event)
+                                    data.photoUrl = URL.createObjectURL(event.target.files[0])
+                                    this.setState({ ...data })
+                                }
+                            }
+                            title={"photo"}
+                            imageSpec={"Image spec: 1920 x 1080"}
+                            imageFormat={"Format: gif, jpg and png"}
+                        />
                         <Divider />
                         {convert(data)}
                     </List>
@@ -114,7 +185,11 @@ class CreatePage extends React.Component {
                             </Button>
                         </div>
                         :
-                        <Button onClick={() => { macaulayLibraryData.results?.content.push(data); createItem(macaulayLibraryData); localStorage.getItem("userType") == SURVEYOR ? alert("Your survey record has been successfully created. Will wait for moderator approval.") : alert("Survey record created successfully.") }} className={classes.button}>
+                        <Button onClick={() => {
+                            console.log(data);
+                            this.props.postRecordCreate(data)
+                            localStorage.getItem("userType") == SURVEYOR ? alert("Your survey record has been successfully created. Will wait for moderator approval.") : alert("Survey record created successfully.")
+                        }} className={classes.button}>
                             <NavLink to={"/survey/search"} >
                                 Submit
                             </NavLink>
@@ -127,12 +202,14 @@ class CreatePage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.common.macaulayLibraryData
+        data: state.common.record,
+        species: state.common.species?.length && state.common.species.reduce((o, s) => { o[s.speciesID] = s; return o }, {}) || {},
     }
 }
 
 const mapDispatchToProps = {
-    createItem
+    postRecordCreate,
+    fetchSpecies,
 }
 
 

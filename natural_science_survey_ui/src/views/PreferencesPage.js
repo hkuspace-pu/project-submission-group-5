@@ -30,14 +30,13 @@ class PreferencesPage extends React.Component {
                     "Email notification": true,
                 },
                 "Species name display": {
-                    "Common name translated to English": false,
+                    "Common name translated to English": true,
                     "Scientific name": false,
-                    "Both, Common names translated to English": true,
+                    "Both, Common names translated to English": false,
                 },
                 "Public name display": localStorage.getItem("userDisplayName"),
                 "Data privacy": {
                     "Hide my data from Recent Visits": false,
-                    "Hide my data from eBird Alerts": false,
                     "Hide my data from the Top 100": false,
                     "Hide my checklist comments": false,
                 },
@@ -75,13 +74,14 @@ class PreferencesPage extends React.Component {
                                     {d[k] && typeof d[k] === "object" ?
                                         convert(d[k]) :
                                         (typeof d[k] === "boolean" ?
-                                            <Checkbox disabled checked={d[k]} />
+                                            <Checkbox defaultChecked={d[k]} />
                                             :
                                             <FormControl style={{ width: "100%" }}>
                                                 <InputLabel>
                                                     {toTitleCase(k)}
                                                 </InputLabel>
                                                 <Input
+                                                    disabled
                                                     value={d[k]}
                                                     onChange={(event) => { d[k] = event.target.value; this.setState({}) }}
                                                 />
@@ -101,11 +101,11 @@ class PreferencesPage extends React.Component {
                         {convert(data)}
                     </List>
                 </Grid>
-                <Button onClick={() => { console.log(this.state) }} className={classes.button}>
-                    <NavLink to={"/survey/preferences"} >
+                <NavLink to={"/survey/search"} >
+                    <Button onClick={() => { console.log(this.state) }} className={classes.button}>
                         Save Change
-                    </NavLink>
-                </Button>
+                    </Button>
+                </NavLink>
             </div>
         )
     }

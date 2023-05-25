@@ -27,3 +27,221 @@ export const fetchMacaulayLibraryHead = () => {
         return dispatch({ type: types.API_RETRIEVED, key: "macaulayLibraryHead", payload: macaulayLibraryHead });
     }
 }
+
+export const fetchRecords = () => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'records' })
+        fetch(`${isDev ? devHost : ''}/Record`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'records', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'records', payload: { error } })
+            });
+    }
+}
+
+export const fetchNews = () => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'news' })
+        fetch(`${isDev ? devHost : ''}/News`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'news', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'news', payload: { error } })
+            });
+    }
+}
+
+export const fetchSpecies = () => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'species' })
+        fetch(`${isDev ? devHost : ''}/Species`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'species', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'species', payload: { error } })
+            });
+    }
+}
+
+export const fetchUsers = () => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'users' })
+        fetch(`${isDev ? devHost : ''}/User`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'users', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'users', payload: { error } })
+            });
+    }
+}
+
+export const fetchComments = () => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'comments' })
+        fetch(`${isDev ? devHost : ''}/Comment`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'comments', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'comments', payload: { error } })
+            });
+    }
+}
+
+export const postUserLogin = (email, password) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'login' })
+        fetch(`${isDev ? devHost : ''}/User/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email, password,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('userDisplayName', data.name);
+                localStorage.setItem('userType', data.userType);
+                localStorage.setItem('email', data.email);
+                localStorage.setItem('userId', data.userId);
+                window.location = "/survey/search"
+                dispatch({ type: types.API_RETRIEVED, key: 'login', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'login', payload: { error } })
+            });
+    }
+}
+
+export const postUserCreate = (name, email, password) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'user' })
+        fetch(`${isDev ? devHost : ''}/User`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "name": name,
+                "photoUrl": "",
+                "email": email,
+                "password": password,
+                "userType": "user"
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                window.location = "/login"
+                dispatch({ type: types.API_RETRIEVED, key: 'user', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'user', payload: { error } })
+            });
+    }
+}
+
+export const postUserUpdate = (name, password) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'user' })
+        fetch(`${isDev ? devHost : ''}/User/update`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "name": name,
+                "photoUrl": "",
+                "email": localStorage.getItem('email'),
+                "password": password,
+                "userType": ""
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'user', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'user', payload: { error } })
+            });
+    }
+}
+
+export const postRecordCreate = (record) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'record' })
+        fetch(`${isDev ? devHost : ''}/Record`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem('token'),
+            },
+            body: JSON.stringify(record),
+        })
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'record', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'record', payload: { error } })
+            });
+    }
+}
+
+export const fetchRecordById = (id) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'record' })
+        fetch(`${isDev ? devHost : ''}/Record/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'record', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'record', payload: { error } })
+            });
+    }
+}
+
+export const fetchCommentByRecordId = (id) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'comments' })
+        fetch(`${isDev ? devHost : ''}/Comment/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'comments', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'comments', payload: { error } })
+            });
+    }
+}
+
+export const postCommentCreate = (record) => {
+    return (dispatch) => {
+        dispatch({ type: types.API_FETCHING, key: 'comment' })
+        fetch(`${isDev ? devHost : ''}/Comment`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(record),
+        })
+            .then(response => response.json())
+            .then(data => {
+                dispatch({ type: types.API_RETRIEVED, key: 'comment', payload: data })
+            }).catch((error) => {
+                dispatch({ type: types.API_ERROR, key: 'comment', payload: { error } })
+            });
+    }
+}
+
+
+export const getToken = () => {
+    let token = localStorage.getItem('token')
+    if (token) {
+        return token
+    } else {
+        window.location = '/login';
+    }
+}
