@@ -37,6 +37,9 @@ class ItemPage extends React.Component {
             }
             return <List>
                 {Object.keys(d).map((k) => {
+                    if (["photoUrl", "recordID", "userID", "status", "reviewerID"].indexOf(k) !== -1) {
+                        return null
+                    }
                     return (
                         <ListItem>
                             <Grid container>

@@ -100,7 +100,7 @@ class CommentPage extends React.Component {
                         onChange={(event) => { userComment.content = event.target.value; this.setState({ userComment }) }}
                     />
                 </FormControl>
-                <Button style={{ marginTop: "2%", backgroundColor: "#c6c6c6de" }} onClick={() => { this.props.postCommentCreate(userComment) }}>Submit</Button>
+                <Button style={{ marginTop: "2%", backgroundColor: "#c6c6c6de" }} onClick={() => { this.props.postCommentCreate(userComment) }} disabled={!localStorage.getItem('userType')}>Submit</Button>
             </Grid>
         </Grid>
     }
