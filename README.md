@@ -1,23 +1,39 @@
-# Project Vision
-The Natural Science Survey System is developing a comprehensive and consistent approach to surveying species records. Surveyors can have a reliable and easy way to document what they measure. Surveyors can share and search the system to help researchers track individual species and assess changes associated with specific specimens
+# Natural Science Survey System
+## Project Vision
+The Natural Science Survey System is a comprehensive and consistent approach to surveying species records. It aims to provide a reliable and easy way for surveyors to document and share their measurements, helping researchers track individual species and assess changes associated with specific specimens.
 
-To provide a cross-platform mobile application that is easy and reliable to use for any surveyor, nature lover, or the general public. It is a trustworthy system that keeps records shared by the users. The records are reviewed and approved by qualified surveyors to guarantee their authenticity. They can be searched to help track any individual species and compared for statistical purposes.
+## Team Members (First/Second)
+- Dennis, KO LAP FUNG (Scrum Master/Technical Lead)
+- Leo, Hung Shing Hoi (Technical Lead/Product Owner)
+- Yau, Nicholas Heng Wah (Product Owner/Scrum Master)
 
-# Project Objectives
+## Project Objectives
 
-To provide a convenient and reliable way for the surveyors to keep records 
-To provide a system that allows the common users to easily add records to enrich the database.
-To provide a system that is easy to use and inspires people’s love for nature.
+- To provide a convenient and reliable way for surveyors to keep records.
+- To create a system that allows common users to easily add records to enrich the database.
+- To develop a cross-platform mobile application that is easy and reliable to use for surveyors, nature lovers, and the general public.
+- To inspire people's love for nature and promote awareness about the importance of species conservation.
 
-# Prototype
+## Prototype
 ![](./docs/prototype_1.jpg)
 ![](./docs/prototype_2.jpg)
 
-# Diagram
-## Interaction Overview Diagram
+## Diagram
+### Interaction Overview Diagram
 ![](./docs/interaction_uml.png)
 
-## Use Case Diagram
+### Use Case Diagram
 ![](./docs/usecase.jpg)
 
 
+# Getting Started
+To use the Natural Science Survey System, follow these steps:
+
+1. Clone the repository: git clone https://github.com/your-username/project.git
+2. Install the required dependencies: npm install
+3. Set up the database and configure the connection settings.
+4. Build the project: npm run build
+5. Run the application: npm start
+
+# License
+This project is licensed under the MIT License.
