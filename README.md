@@ -7,6 +7,10 @@ The Natural Science Survey System is a comprehensive and consistent approach to 
 - Leo, Hung Shing Hoi (Technical Lead/Product Owner)
 - Yau, Nicholas Heng Wah (Product Owner/Scrum Master)
 
+## Links
+- [One Note Records](https://1drv.ms/u/s!AqMV5T1vsEThmxhQdNpn4LVIaw4C?e=5S0KZi)
+- [Prototype](https://project-submission-group-5.herokuapp.com/login)
+
 ## Project Objectives
 
 - To provide a convenient and reliable way for surveyors to keep records.
