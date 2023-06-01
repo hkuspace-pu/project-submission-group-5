@@ -1,3 +1,9 @@
+CREATE DATABASE NaturalScienceSurvey;
+
+USE NaturalScienceSurvey;
+
+-- DROP TABLE Species, Users, Records, News, Comment;
+
 -- Create the Species table
 CREATE TABLE Species (
   SpeciesID int PRIMARY KEY,

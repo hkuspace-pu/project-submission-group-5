@@ -1,7 +1,8 @@
 import * as types from "reducers/actionTypes";
 import { macaulayLibraryData, macaulayLibraryHead } from "variables/template"
-const isDev = process.env.NODE_ENV === 'development'
-const devHost = 'https://localhost:7078'
+// const isDev = process.env.NODE_ENV === 'development'
+const isDev = true
+const devHost = 'http://localhost:3001'
 
 export const createItem = (data) => {
     return (dispatch) => {

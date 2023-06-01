@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    build: ./natural_science_survey_ui
+    ports:
+      - "3000:3000"
+  db:
+    hostname: "azuredb"
+    image: mcr.microsoft.com/azure-sql-edge
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=2023Gr0up5!
+    volumes:
+      - ./docs/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./docs/setup.sql:/docker-entrypoint-initdb.d/sample.sql
+  backend:
+    build: ./natural_science_survey_service
+    ports:
+      - "3001:80"
