@@ -11,6 +11,23 @@ The Natural Science Survey System is a comprehensive and consistent approach to 
 - [One Note Records](https://1drv.ms/u/s!AqMV5T1vsEThmxhQdNpn4LVIaw4C?e=5S0KZi)
 - [Prototype](https://project-submission-group-5.herokuapp.com/login)
 
+### Testing accounts
+Testing account
+
+| Role      | Username     | Password   |
+| :-------- | :---------- | :--------- |
+| admin     | John Smith  | password1  |
+| admin     | Mary Johnson| password2  |
+| expert    | Tom Jones   | password3  |
+| expert    | Jane Doe    | password4  |
+| moderator | Bob Smith   | password5  |
+| moderator | Alice Johnson| password6 |
+| user      | Mike Jones  | password7  |
+| user      | Sue Doe     | password8  |
+| user      | Jim Smith   | password9  |
+| user      | Lisa Johnson| password10 |
+
+I hope that helps. Let me know if you have any other questions.
 ## Project Objectives
 
 - To provide a convenient and reliable way for surveyors to keep records.
@@ -28,6 +45,9 @@ The Natural Science Survey System is a comprehensive and consistent approach to 
 
 ### Use Case Diagram
 ![](./docs/usecase.jpg)
+
+# Deployment
+The backend server was not running properly during presentation. We have migrated our backend server to AWS which will provide us with greater reliability and scalability. The AWS server will be operational non-stop from June 1st, 2023 to October 31st, 2023. Please note that the QR code / URL link to the prototype is still functional and can be accessed at any time without any issues.
 
 
 # Getting Started
