@@ -26,6 +26,9 @@ UAT User Accounts
 | user      | Jim Smith   | password9  |
 | user      | Lisa Johnson| password10 |
 
+Note: New accounts can be created by testers. If a user attempts to log in with invalid credentials, they will be treated as a guest account. This part will be further enhanced in the future to improve the user experience.
+
+
 I hope that helps. Let me know if you have any other questions.
 ## Project Objectives
 
