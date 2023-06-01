@@ -12,8 +12,7 @@ The Natural Science Survey System is a comprehensive and consistent approach to 
 - [Prototype](https://project-submission-group-5.herokuapp.com/login)
 
 ### Testing accounts
-Testing account
-
+UAT User Accounts
 | Role      | Username     | Password   |
 | :-------- | :---------- | :--------- |
 | admin     | John Smith  | password1  |
