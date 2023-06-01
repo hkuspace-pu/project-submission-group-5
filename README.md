@@ -12,7 +12,9 @@ The Natural Science Survey System is a comprehensive and consistent approach to 
 - [Prototype](https://project-submission-group-5.herokuapp.com/login)
 
 ### Testing accounts
-UAT User Accounts
+
+Note: New accounts can be created by testers. If a user attempts to log in with invalid credentials, they will be treated as a guest account. This part will be further enhanced in the future to improve the user experience.
+
 | Role      | Username     | Password   |
 | :-------- | :---------- | :--------- |
 | admin     | John Smith  | password1  |
@@ -26,10 +28,9 @@ UAT User Accounts
 | user      | Jim Smith   | password9  |
 | user      | Lisa Johnson| password10 |
 
-Note: New accounts can be created by testers. If a user attempts to log in with invalid credentials, they will be treated as a guest account. This part will be further enhanced in the future to improve the user experience.
 
 
-I hope that helps. Let me know if you have any other questions.
+
 ## Project Objectives
 
 - To provide a convenient and reliable way for surveyors to keep records.
